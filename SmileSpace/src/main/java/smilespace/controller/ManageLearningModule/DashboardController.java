@@ -43,28 +43,37 @@ public class DashboardController extends HttpServlet {
         request.getRequestDispatcher("/modules/manageLearningModule/dashboard.jsp").forward(request, response);
     }
     
-    private List<LearningModule> filterModules(String search, String category, String level) {
+        private List<LearningModule> filterModules(String search, String category, String level) {
         List<LearningModule> result = new ArrayList<>();
         
         for (LearningModule module : modules) {
             boolean matches = true;
             
-            if (search != null && !search.trim().isEmpty()) {
+            // Search filter
+            if (search != null && !search.trim().isEmpty() && !"".equals(search)) {
                 String searchLower = search.toLowerCase();
-                if (!module.getTitle().toLowerCase().contains(searchLower) && 
-                    !module.getCategory().toLowerCase().contains(searchLower)) {
+                String title = module.getTitle() != null ? module.getTitle().toLowerCase() : "";
+                String cat = module.getCategory() != null ? module.getCategory().toLowerCase() : "";
+                
+                if (!title.contains(searchLower) && !cat.contains(searchLower)) {
                     matches = false;
                 }
             }
             
-            if (category != null && !"all".equals(category) && 
-                !module.getCategory().equals(category)) {
-                matches = false;
+            // Category filter
+            if (category != null && !"all".equals(category) && !category.isEmpty()) {
+                String moduleCategory = module.getCategory() != null ? module.getCategory() : "";
+                if (!moduleCategory.equals(category)) {
+                    matches = false;
+                }
             }
             
-            if (level != null && !"all".equals(level) && 
-                !module.getLevel().equals(level)) {
-                matches = false;
+            // Level filter
+            if (level != null && !"all".equals(level) && !level.isEmpty()) {
+                String moduleLevel = module.getLevel() != null ? module.getLevel() : "";
+                if (!moduleLevel.equals(level)) {
+                    matches = false;
+                }
             }
             
             if (matches) {

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.model.LearningModule" %>
+<%@ page import="smilespace.model.LearningModule" %>  <!-- FIXED IMPORT -->
 <%
     LearningModule module = (LearningModule) request.getAttribute("module");
 %>
@@ -61,7 +61,6 @@
             
             <form action="edit-module" method="POST">
                 <input type="hidden" name="id" value="<%= module.getId() %>">
-                <input type="hidden" name="views" value="<%= module.getViews() %>">
                 
                 <div class="form-group">
                     <label class="form-label">Cover Page</label>

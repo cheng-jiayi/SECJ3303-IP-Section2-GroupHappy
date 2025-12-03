@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.model.LearningModule" %>
+<%@ page import="smilespace.model.LearningModule" %>  <!-- FIXED IMPORT -->
 <%
     LearningModule module = (LearningModule) request.getAttribute("module");
 %>
