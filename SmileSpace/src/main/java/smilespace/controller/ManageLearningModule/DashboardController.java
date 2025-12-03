@@ -104,14 +104,38 @@ public class DashboardController extends HttpServlet {
     }
     
     public static void updateModule(String id, LearningModule updatedModule) {
-        for (int i = 0; i < modules.size(); i++) {
-            if (modules.get(i).getId().equals(id)) {
-                updatedModule.setId(id);
-                modules.set(i, updatedModule);
-                break;
+    for (int i = 0; i < modules.size(); i++) {
+        if (modules.get(i).getId().equals(id)) {
+            LearningModule existing = modules.get(i);
+            
+            // Update all fields from the updated module
+            existing.setTitle(updatedModule.getTitle());
+            existing.setDescription(updatedModule.getDescription());
+            existing.setCategory(updatedModule.getCategory());
+            existing.setLevel(updatedModule.getLevel());
+            existing.setAuthorName(updatedModule.getAuthorName());
+            existing.setEstimatedDuration(updatedModule.getEstimatedDuration());
+            existing.setNotes(updatedModule.getNotes());
+            existing.setLastUpdated(updatedModule.getLastUpdated());
+            
+            // Only update cover image if new one is provided
+            if (updatedModule.getCoverImage() != null && !updatedModule.getCoverImage().isEmpty()) {
+                existing.setCoverImage(updatedModule.getCoverImage());
             }
+            
+            // Only update resource file if new one is provided
+            if (updatedModule.getResourceFile() != null && !updatedModule.getResourceFile().isEmpty()) {
+                existing.setResourceFile(updatedModule.getResourceFile());
+            }
+            
+            System.out.println("Module " + id + " updated successfully");
+            System.out.println("New title: " + existing.getTitle());
+            System.out.println("New category: " + existing.getCategory());
+            System.out.println("New level: " + existing.getLevel());
+            break;
         }
     }
+}
     
     public static boolean deleteModule(String id) {
         return modules.removeIf(module -> module.getId().equals(id));
