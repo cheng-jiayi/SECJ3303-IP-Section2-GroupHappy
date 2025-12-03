@@ -32,14 +32,14 @@
             box-shadow: 0 2px 10px rgba(107, 79, 54, 0.1);
         }
         .logo h1 {
-            color: #2C7873;
+            color: #D7923B;
             font-size: 32px;
         }
         .user-menu {
             position: relative;
         }
         .user-btn {
-            background: #2C7873;
+            background: #D7923B;
             color: white;
             width: 50px;
             height: 50px;
@@ -61,12 +61,12 @@
         .dropdown.show { display: block; }
         .user-info {
             padding: 15px;
-            background: #E8F4F8;
-            border-bottom: 2px solid #4ECDC4;
+            background: #FFF3C8;
+            border-bottom: 2px solid #E8D4B9;
         }
         .user-name { font-weight: bold; }
         .user-role {
-            background: #2C7873;
+            background: #D7923B;
             color: white;
             padding: 3px 10px;
             border-radius: 15px;
@@ -94,7 +94,7 @@
             margin-bottom: 40px;
         }
         .welcome h2 {
-            color: #2C7873;
+            color: #D7923B;
             font-size: 28px;
             margin-bottom: 10px;
         }
@@ -119,7 +119,7 @@
         .card-icon {
             width: 80px;
             height: 80px;
-            background: #2C7873;
+            background: #D7923B;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -129,7 +129,7 @@
             font-size: 30px;
         }
         .card-title {
-            color: #2C7873;
+            color: #D7923B;
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -179,7 +179,7 @@
                 <div class="card-desc">Access teaching materials</div>
             </div>
 
-            <div class="card" onclick="alert('Student Referral clicked!')">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/referral?action=viewStudents'">
                 <div class="card-icon">
                     <i class="fas fa-user-graduate"></i>
                 </div>

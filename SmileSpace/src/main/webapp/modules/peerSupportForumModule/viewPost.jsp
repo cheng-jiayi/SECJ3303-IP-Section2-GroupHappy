@@ -347,9 +347,13 @@
                 <a href="replyPost.jsp?postId=<%= postId %>" class="btn btn-primary">
                     <i class="fas fa-reply"></i> Reply
                 </a>
-                <a href="confirmAction.jsp?action=delete&id=<%= postId %>" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Delete
-                </a>
+                <form action="<%= request.getContextPath() %>/modules/peerSupportForumModule/confirmAction.jsp" method="POST" style="display:inline;">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" value="<%= post.get("id") %>">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -395,9 +399,13 @@
                 <a href="replyPost.jsp?postId=<%= postId %>" class="btn btn-primary">
                     <i class="fas fa-reply"></i> Reply to Post
                 </a>
-                <a href="confirmAction.jsp?action=delete&id=<%= postId %>" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Delete Post
-                </a>
+                <form action="<%= request.getContextPath() %>/modules/peerSupportForumModule/confirmAction.jsp" method="POST" style="display:inline;">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" value="<%= post.get("id") %>">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </form>
             </div>
         </div>
 

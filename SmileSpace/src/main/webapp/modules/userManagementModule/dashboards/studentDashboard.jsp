@@ -332,7 +332,7 @@
                 <div class="card-desc">Connect with other students</div>
             </div>
 
-            <div class="card" onclick="alert('Counseling clicked!')">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/counseling?action=viewSessions'">
                 <div class="card-icon">
                     <i class="fas fa-comments"></i>
                 </div>
@@ -340,7 +340,7 @@
                 <div class="card-desc">Schedule counseling sessions</div>
             </div>
 
-            <div class="card" onclick="window.location.href='<%= request.getContextPath() %>/modules/feedbackAndAnalyticsModule/feedback.jsp'">
+            <div class="card" onclick="window.location.href='${pageContext.request.contextPath}/modules/feedbackAndAnalyticsModule/feedback.jsp'">
                 <div class="card-icon">
                     <i class="fas fa-comment-dots"></i>
                 </div>

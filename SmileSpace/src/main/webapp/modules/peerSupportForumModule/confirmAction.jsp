@@ -1,48 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@ page import="java.util.*" %>
 <%
-    // Check if user is logged in
-    String userRole = (String) session.getAttribute("userRole");
-    String userFullName = (String) session.getAttribute("userFullName");
-    
-    if (userRole == null) {
-        response.sendRedirect("../../userManagementModule/loginPage.jsp");
-        return;
-    }
-    
-    String action = request.getParameter("action");
-    String postId = request.getParameter("id");
-    
-    if (action == null) {
-        response.sendRedirect("forumHome.jsp");
-        return;
-    }
-    
-    // Initialize forum data if needed
-    if (application.getAttribute("forumPosts") == null) {
-%>
-    <jsp:include page="forumData.jsp" />
-<%
-    }
-    
-    // Process actions
+    // Initialize global variables
+    String message = "";
+    String actionType = "";
+    String redirectPage = "forumHome.jsp";
+
     List<Map<String, String>> posts = (List<Map<String, String>>) application.getAttribute("forumPosts");
+    if (posts == null) {
+        posts = new ArrayList<>();
+        application.setAttribute("forumPosts", posts);
+    }
+
     Map<String, List<Map<String, String>>> replies = 
         (Map<String, List<Map<String, String>>>) application.getAttribute("forumReplies");
-    
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String currentDateTime = dateFormat.format(new java.util.Date());
-    String message = "";
-    String redirectPage = "forumHome.jsp";
-    String actionType = "";
-    
-    if ("POST".equals(request.getMethod()) || "delete".equals(action) || "deleteReply".equals(action)) {
+    if (replies == null) {
+        replies = new HashMap<>();
+        application.setAttribute("forumReplies", replies);
+    }
+
+    String userFullName = (String) session.getAttribute("userFullName");
+    String userRole = (String) session.getAttribute("userRole");
+
+    // Current date-time
+    String currentDateTime = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+    // Handle POST requests
+    if ("POST".equalsIgnoreCase(request.getMethod())) {
+
+        String action = request.getParameter("action");
+
         if ("create".equals(action)) {
-            // Create new post
             String title = request.getParameter("title");
             String content = request.getParameter("content");
             String anonymous = request.getParameter("anonymous");
-            
+
             if (title != null && content != null && !title.trim().isEmpty() && !content.trim().isEmpty()) {
                 Map<String, String> newPost = new HashMap<>();
                 newPost.put("id", String.valueOf(posts.size() + 1));
@@ -53,324 +45,184 @@
                 newPost.put("isAnonymous", "true".equals(anonymous) ? "true" : "false");
                 newPost.put("createdAt", currentDateTime);
                 newPost.put("replyCount", "0");
-                
+
                 posts.add(newPost);
                 application.setAttribute("forumPosts", posts);
+
+                // Initialize replies for this post
+                replies.put(newPost.get("id"), new ArrayList<>());
+                application.setAttribute("forumReplies", replies);
+
                 message = "✅ Your post has been created successfully!";
                 actionType = "create";
+                redirectPage = "viewPost.jsp?id=" + newPost.get("id");
             } else {
                 message = "❌ Please fill in both title and content";
+                actionType = "create";
             }
-            
-        } else if ("edit".equals(action) && postId != null) {
-            // Edit existing post
+
+        } else if ("edit".equals(action)) {
+            String id = request.getParameter("id");
             String title = request.getParameter("title");
             String content = request.getParameter("content");
-            String anonymous = request.getParameter("anonymous");
-            
-            if (title != null && content != null && !title.trim().isEmpty() && !content.trim().isEmpty()) {
-                boolean updated = false;
-                for (Map<String, String> post : posts) {
-                    if (post.get("id").equals(postId) && post.get("author").equals(userFullName)) {
-                        post.put("title", title.trim());
-                        post.put("content", content.trim());
-                        post.put("isAnonymous", "true".equals(anonymous) ? "true" : "false");
-                        post.put("updatedAt", currentDateTime);
-                        updated = true;
-                        message = "✅ Post updated successfully!";
-                        actionType = "edit";
-                        break;
-                    }
-                }
-                if (updated) {
-                    application.setAttribute("forumPosts", posts);
-                } else {
-                    message = "❌ You can only edit your own posts";
-                }
-            } else {
-                message = "❌ Please fill in both title and content";
-            }
-            
-        } else if ("delete".equals(action) && postId != null) {
-            // Delete post
-            boolean deleted = false;
-            Iterator<Map<String, String>> iterator = posts.iterator();
-            while (iterator.hasNext()) {
-                Map<String, String> post = iterator.next();
-                if (post.get("id").equals(postId) && post.get("author").equals(userFullName)) {
-                    iterator.remove();
-                    // Also delete associated replies
-                    if (replies != null) {
-                        replies.remove(postId);
-                    }
-                    deleted = true;
-                    message = "✅ Post deleted successfully!";
-                    actionType = "delete";
+
+            boolean found = false;
+            for (Map<String, String> post : posts) {
+                if (post.get("id").equals(id)) {
+                    post.put("title", title);
+                    post.put("content", content);
+                    found = true;
                     break;
                 }
             }
-            if (deleted) {
+
+            if (found) {
                 application.setAttribute("forumPosts", posts);
-                if (replies != null) {
-                    application.setAttribute("forumReplies", replies);
-                }
+                message = "✅ Post updated successfully!";
+                actionType = "edit";
+                redirectPage = "viewPost.jsp?id=" + id;
             } else {
-                message = "❌ You can only delete your own posts";
+                message = "❌ Post not found!";
+                actionType = "edit";
             }
-            
-        } else if ("reply".equals(action) && postId != null) {
-            // Add reply to post - FIXED PARAMETER NAME
+
+        } else if ("delete".equals(action)) {
+            String id = request.getParameter("id");
+            boolean removed = posts.removeIf(p -> p.get("id").equals(id));
+            if (removed) {
+                if (replies.containsKey(id)) {
+                    replies.remove(id);
+                }
+                application.setAttribute("forumPosts", posts);
+                application.setAttribute("forumReplies", replies);
+
+                message = "✅ Post deleted successfully!";
+                actionType = "delete";
+                redirectPage = "forumHome.jsp";
+            } else {
+                message = "❌ Post not found!";
+                actionType = "delete";
+                redirectPage = "forumHome.jsp";
+            }
+
+        } else if ("reply".equals(action)) {
+            String postId = request.getParameter("id");
             String replyContent = request.getParameter("replyContent");
-            if (replyContent == null) {
-                replyContent = request.getParameter("content");
-            }
             String anonymous = request.getParameter("anonymous");
-            
-            if (replyContent != null && !replyContent.trim().isEmpty()) {
-                // Initialize replies map if null
-                if (replies == null) {
-                    replies = new HashMap<>();
-                    application.setAttribute("forumReplies", replies);
-                }
-                
-                // Initialize replies list for this post if doesn't exist
-                if (!replies.containsKey(postId)) {
-                    replies.put(postId, new ArrayList<>());
-                }
-                
-                List<Map<String, String>> postReplies = replies.get(postId);
-                Map<String, String> newReply = new HashMap<>();
-                newReply.put("id", String.valueOf(postReplies.size() + 1));
-                newReply.put("content", replyContent.trim());
-                newReply.put("author", userFullName);
-                newReply.put("authorRole", userRole);
-                newReply.put("isAnonymous", "true".equals(anonymous) ? "true" : "false");
-                newReply.put("createdAt", currentDateTime);
-                
-                postReplies.add(newReply);
-                
-                // Update reply count in original post
+
+            if (postId != null && replyContent != null && !replyContent.trim().isEmpty()) {
+                Map<String, String> reply = new HashMap<>();
+                reply.put("id", String.valueOf(replies.get(postId).size() + 1));
+                reply.put("content", replyContent.trim());
+                reply.put("author", userFullName);
+                reply.put("authorRole", userRole);
+                reply.put("isAnonymous", "true".equals(anonymous) ? "true" : "false");
+                reply.put("createdAt", currentDateTime);
+
+                replies.get(postId).add(reply);
+                application.setAttribute("forumReplies", replies);
+
+                // Increment reply count
                 for (Map<String, String> post : posts) {
                     if (post.get("id").equals(postId)) {
-                        int replyCount = Integer.parseInt(post.getOrDefault("replyCount", "0"));
-                        post.put("replyCount", String.valueOf(replyCount + 1));
+                        int count = Integer.parseInt(post.get("replyCount"));
+                        post.put("replyCount", String.valueOf(count + 1));
                         break;
                     }
                 }
-                
-                // Save both posts and replies
                 application.setAttribute("forumPosts", posts);
-                application.setAttribute("forumReplies", replies);
-                
-                message = "✅ Your reply has been posted!";
+
+                message = "✅ Reply posted successfully!";
                 actionType = "reply";
                 redirectPage = "viewPost.jsp?id=" + postId;
             } else {
-                message = "❌ Please enter reply content";
+                message = "❌ Reply cannot be empty!";
+                actionType = "reply";
             }
-            
-        } else if ("deleteReply".equals(action)) {
-            String replyId = request.getParameter("replyId");
-            
-            if (postId != null && replyId != null && replies != null && replies.containsKey(postId)) {
-                List<Map<String, String>> postReplies = replies.get(postId);
-                Iterator<Map<String, String>> iterator = postReplies.iterator();
-                boolean deleted = false;
-                
-                while (iterator.hasNext()) {
-                    Map<String, String> reply = iterator.next();
-                    if (reply.get("id").equals(replyId) && reply.get("author").equals(userFullName)) {
-                        iterator.remove();
-                        deleted = true;
-                        
-                        // Update reply count in original post
-                        for (Map<String, String> post : posts) {
-                            if (post.get("id").equals(postId)) {
-                                int replyCount = Integer.parseInt(post.getOrDefault("replyCount", "0"));
-                                post.put("replyCount", String.valueOf(Math.max(0, replyCount - 1)));
-                                break;
-                            }
-                        }
-                        
-                        message = "✅ Reply deleted successfully!";
-                        actionType = "deleteReply";
-                        redirectPage = "viewPost.jsp?id=" + postId;
-                        break;
-                    }
-                }
-                
-                if (deleted) {
-                    application.setAttribute("forumPosts", posts);
-                    application.setAttribute("forumReplies", replies);
-                } else {
-                    message = "❌ You can only delete your own replies";
-                }
-            }
+
+        } else {
+            message = "❌ Unknown action";
+            actionType = "invalid";
+            redirectPage = "forumHome.jsp";
         }
-    } else {
-        // Not a POST request
+
+    } else { // Non-POST request
         message = "❌ Invalid request method";
+        actionType = "invalid";
+        redirectPage = "forumHome.jsp";
     }
-    
-    // Determine message class for CSS
-    String messageClass = "error";
-    if (message.startsWith("✅")) {
-        messageClass = "success";
-    }
+
+    // Determine message CSS class
+    String messageClass = message.startsWith("✅") ? "success" : "error";
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Confirm Action - SmileSpace Forum</title>
+    <title>Action Result - SmileSpace Forum</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #FFF8E8;
-            font-family: Arial, sans-serif;
-            color: #6B4F36;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        .icon {
-            font-size: 64px;
-            color: #6C5CE7;
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #6C5CE7;
-            margin-bottom: 10px;
-        }
-        .message {
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid;
-        }
-        .message.success {
-            background: #E8F5E9;
-            border-color: #4CAF50;
-            color: #2E7D32;
-        }
-        .message.error {
-            background: #FFEBEE;
-            border-color: #F44336;
-            color: #C62828;
-        }
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: transform 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        .btn-primary {
-            background: #6C5CE7;
-            color: white;
-        }
-        .btn-secondary {
-            background: #F3E8FF;
-            color: #6C5CE7;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        .auto-redirect {
-            margin-top: 20px;
-            color: #888;
-            font-size: 14px;
-        }
+        body { font-family: Arial, sans-serif; background: #FFF8E8; color: #6B4F36; text-align: center; padding: 50px; }
+        .message.success { color: #2C7873; }
+        .message.error { color: #E74C3C; }
+        .btn { text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; margin: 10px; display: inline-block; }
+        .btn-primary { background: #2C7873; color: white; }
+        .btn-secondary { background: #8B7355; color: white; }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const messageText = "<%= message %>";
+            const redirectUrl = "<%= redirectPage %>";
+            if (messageText.startsWith("✅")) {
+                let seconds = 3;
+                const countdown = document.getElementById("countdown");
+                const interval = setInterval(() => {
+                    seconds--;
+                    if (countdown) countdown.textContent = seconds;
+                    if (seconds <= 0) {
+                        clearInterval(interval);
+                        window.location.href = redirectUrl;
+                    }
+                }, 1000);
+            }
+        });
+    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="icon">
-            <% if (message.startsWith("✅")) { %>
-                <i class="fas fa-check-circle"></i>
-            <% } else if (message.startsWith("❌")) { %>
-                <i class="fas fa-exclamation-circle"></i>
-            <% } else { %>
-                <i class="fas fa-info-circle"></i>
-            <% } %>
-        </div>
-        
-        <h1>
-            <% if ("create".equals(actionType)) { %>
-                <%= message.startsWith("✅") ? "Post Created" : "Create Failed" %>
-            <% } else if ("edit".equals(actionType)) { %>
-                <%= message.startsWith("✅") ? "Post Updated" : "Update Failed" %>
-            <% } else if ("delete".equals(actionType)) { %>
-                <%= message.startsWith("✅") ? "Post Deleted" : "Delete Failed" %>
-            <% } else if ("reply".equals(actionType)) { %>
-                <%= message.startsWith("✅") ? "Reply Posted" : "Reply Failed" %>
-            <% } else if ("deleteReply".equals(actionType)) { %>
-                <%= message.startsWith("✅") ? "Reply Deleted" : "Delete Failed" %>
-            <% } else { %>
-                Action Result
-            <% } %>
-        </h1>
-        
-        <div class="message <%= messageClass %>">
-            <%= message %>
-        </div>
-        
-        <div class="buttons">
-            <a href="<%= redirectPage %>" class="btn btn-primary">
-                <i class="fas fa-arrow-left"></i> Continue
-            </a>
-            <a href="forumHome.jsp" class="btn btn-secondary">
-                <i class="fas fa-home"></i> Forum Home
-            </a>
-        </div>
-        
-        <div class="auto-redirect">
-            <% if (message.startsWith("✅")) { %>
-                You will be automatically redirected in <span id="countdown">3</span> seconds...
-            <% } %>
-        </div>
+    <div class="icon">
+        <% if (message.startsWith("✅")) { %>
+            <i class="fas fa-check-circle fa-3x"></i>
+        <% } else { %>
+            <i class="fas fa-exclamation-circle fa-3x"></i>
+        <% } %>
     </div>
-    
-    <script>
-        // Check if we should auto-redirect (for success messages)
-        const messageText = "<%= message %>";
-        const redirectUrl = "<%= redirectPage %>";
-    
-        if (messageText.startsWith("✅")) {
-            let seconds = 3;
-            const countdownElement = document.getElementById('countdown');
-            const countdownInterval = setInterval(() => {
-                seconds--;
-                if (countdownElement) countdownElement.textContent = seconds;
-                if (seconds <= 0) {
-                    clearInterval(countdownInterval);
-                    window.location.href = redirectUrl;
-                }
-            }, 1000);
-        }
-    </script>
+
+    <h1>
+        <% if ("create".equals(actionType)) { %>
+            <%= message.startsWith("✅") ? "Post Created" : "Create Failed" %>
+        <% } else if ("edit".equals(actionType)) { %>
+            <%= message.startsWith("✅") ? "Post Updated" : "Update Failed" %>
+        <% } else if ("delete".equals(actionType)) { %>
+            <%= message.startsWith("✅") ? "Post Deleted" : "Delete Failed" %>
+        <% } else if ("reply".equals(actionType)) { %>
+            <%= message.startsWith("✅") ? "Reply Posted" : "Reply Failed" %>
+        <% } else { %>
+            Action Result
+        <% } %>
+    </h1>
+
+    <div class="message <%= messageClass %>"><%= message %></div>
+
+    <div class="buttons">
+        <a href="<%= redirectPage %>" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Continue</a>
+        <a href="forumHome.jsp" class="btn btn-secondary">Home</a>
+    </div>
+
+    <% if (message.startsWith("✅")) { %>
+    <div class="auto-redirect">
+        You will be automatically redirected in <span id="countdown">3</span> seconds...
+    </div>
+    <% } %>
 </body>
 </html>

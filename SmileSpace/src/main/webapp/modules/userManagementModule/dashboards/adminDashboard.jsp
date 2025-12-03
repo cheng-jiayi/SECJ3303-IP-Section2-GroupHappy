@@ -32,14 +32,14 @@
             box-shadow: 0 2px 10px rgba(107, 79, 54, 0.1);
         }
         .logo h1 {
-            color: #6C5CE7;
+            color: #D7923B;
             font-size: 32px;
         }
         .user-menu {
             position: relative;
         }
         .user-btn {
-            background: #6C5CE7;
+            background: #D7923B;
             color: white;
             width: 50px;
             height: 50px;
@@ -61,12 +61,12 @@
         .dropdown.show { display: block; }
         .user-info {
             padding: 15px;
-            background: #F3E8FF;
-            border-bottom: 2px solid #A29BFE;
+            background: #FFF3C8;
+            border-bottom: 2px solid #E8D4B9;
         }
         .user-name { font-weight: bold; }
         .user-role {
-            background: #6C5CE7;
+            background: #D7923B;
             color: white;
             padding: 3px 10px;
             border-radius: 15px;
@@ -94,7 +94,7 @@
             margin-bottom: 40px;
         }
         .welcome h2 {
-            color: #6C5CE7;
+            color: #D7923B;
             font-size: 28px;
             margin-bottom: 10px;
         }
@@ -119,7 +119,7 @@
         .card-icon {
             width: 80px;
             height: 80px;
-            background: #6C5CE7;
+            background: #D7923B;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -129,7 +129,7 @@
             font-size: 30px;
         }
         .card-title {
-            color: #6C5CE7;
+            color: #D7923B;
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -169,38 +169,13 @@
             <h2>Welcome back, <%= userFullName %>!</h2>
             <p>System Administration Dashboard</p>
         </div>
-
         <div class="card-container">
-            <div class="card" onclick="alert('User Management clicked!')">
-                <div class="card-icon">
-                    <i class="fas fa-users-cog"></i>
-                </div>
-                <div class="card-title">User Management</div>
-                <div class="card-desc">Manage system users</div>
-            </div>
-
-            <div class="card" onclick="alert('System Settings clicked!')">
-                <div class="card-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <div class="card-title">System Settings</div>
-                <div class="card-desc">Configure system parameters</div>
-            </div>
-
-            <div class="card" onclick="alert('Reports clicked!')">
-                <div class="card-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="card-title">View Reports</div>
-                <div class="card-desc">System usage statistics</div>
-            </div>
-
             <div class="card" onclick="alert('Feedback clicked!')">
                 <div class="card-icon">
                     <i class="fas fa-comment-dots"></i>
                 </div>
-                <div class="card-title">Review Feedback</div>
-                <div class="card-desc">View user feedback</div>
+                <div class="card-title">Share Feedback</div>
+                <div class="card-desc">Provide system feedback</div>
             </div>
         </div>
     </div>
