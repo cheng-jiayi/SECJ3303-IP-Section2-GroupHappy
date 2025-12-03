@@ -417,7 +417,7 @@
 <body>
     <!-- HEADER -->
     <header class="header">
-        <a href="<%= request.getContextPath() %>/quiz-dashboard" class="home-link">
+        <a href="<%= request.getContextPath() %>/student-learning-modules" class="home-link">
             <div class="logo">
                 <i class="fas fa-home"></i>
                 SmileSpace

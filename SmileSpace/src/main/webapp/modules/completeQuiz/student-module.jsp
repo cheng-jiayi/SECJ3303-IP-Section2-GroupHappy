@@ -122,12 +122,12 @@
 <body>
 
 <div class="top-right">
-    <a href="#" onclick="window.location.reload()" class="home-link">
-        <div class="logo">
-            <i class="fas fa-home"></i>
-            SmileSpace
-        </div>
-    </a>
+    <a href="<%= request.getContextPath() %>/modules/userManagementModule/profiles/studentProfile.jsp" class="home-link">
+    <div class="logo">
+        <i class="fas fa-home"></i>
+        SmileSpace
+    </div>
+</a>
 </div>
 
 <div class="container">
