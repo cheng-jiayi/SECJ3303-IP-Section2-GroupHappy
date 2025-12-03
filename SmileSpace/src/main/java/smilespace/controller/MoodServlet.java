@@ -75,7 +75,7 @@ public class MoodServlet extends HttpServlet {
                         request.setAttribute("selectedFeelings", feelings);
                         request.setAttribute("moodToEdit", moodToEdit);
                         request.setAttribute("isEdit", true);
-                        request.getRequestDispatcher("/modules/moodAndWellness/addMoodDetails.jsp").forward(request, response);
+                        request.getRequestDispatcher("/modules/moodAndWellnessModule/addMoodDetails.jsp").forward(request, response);
                         return;
                     }
                 } catch (NumberFormatException e) {
@@ -105,7 +105,7 @@ public class MoodServlet extends HttpServlet {
             request.setAttribute("successMessage", "Mood entry added successfully!");
         }
         
-        request.getRequestDispatcher("/modules/moodAndWellness/recordMood.jsp").forward(request, response);
+        request.getRequestDispatcher("/modules/moodAndWellnessModule/recordMood.jsp").forward(request, response);
     }
 
     private void showAddMoodFeelings(HttpServletRequest request, HttpServletResponse response) 
@@ -117,7 +117,7 @@ public class MoodServlet extends HttpServlet {
             request.setAttribute("selectedFeelings", selectedFeelings);
         }
         
-        request.getRequestDispatcher("/modules/moodAndWellness/addMoodFeelings.jsp").forward(request, response);
+        request.getRequestDispatcher("/modules/moodAndWellnessModule/addMoodFeelings.jsp").forward(request, response);
     }
 
     private void showAddMoodDetails(HttpServletRequest request, HttpServletResponse response) 
@@ -132,7 +132,7 @@ public class MoodServlet extends HttpServlet {
         }
         
         request.setAttribute("selectedFeelings", selectedFeelings);
-        request.getRequestDispatcher("/modules/moodAndWellness/addMoodDetails.jsp").forward(request, response);
+        request.getRequestDispatcher("/modules/moodAndWellnessModule/addMoodDetails.jsp").forward(request, response);
     }
 
     private void showMoodTrends(HttpServletRequest request, HttpServletResponse response) 
@@ -156,7 +156,7 @@ public class MoodServlet extends HttpServlet {
         request.setAttribute("allMoodEntries", allEntries != null ? allEntries : new ArrayList<>());
         request.setAttribute("moodTrends", moodService.getMoodTrends());
     
-        request.getRequestDispatcher("/modules/moodAndWellness/viewMoodTrends.jsp").forward(request, response);
+        request.getRequestDispatcher("/modules/moodAndWellnessModule/viewMoodTrends.jsp").forward(request, response);
     }
 
     private void showDailyMood(HttpServletRequest request, HttpServletResponse response) 
@@ -178,7 +178,7 @@ public class MoodServlet extends HttpServlet {
                 
                 if (dailyMood != null) {
                     request.setAttribute("dailyMood", dailyMood);
-                    request.getRequestDispatcher("/modules/moodAndWellness/viewDailyMood.jsp").forward(request, response);
+                    request.getRequestDispatcher("/modules/moodAndWellnessModule/viewDailyMood.jsp").forward(request, response);
                 } else {
                     // No mood found for this date, redirect to trends
                     response.sendRedirect("mood?action=viewTrends");
@@ -223,7 +223,7 @@ public class MoodServlet extends HttpServlet {
                     request.setAttribute("moodToEdit", moodToEdit);
                     request.setAttribute("isEdit", true);
                     request.setAttribute("referrer", referrer);
-                    request.getRequestDispatcher("/modules/moodAndWellness/addMoodFeelings.jsp").forward(request, response);
+                    request.getRequestDispatcher("/modules/moodAndWellnessModule/addMoodFeelings.jsp").forward(request, response);
                 } else {
                     response.sendRedirect("mood?action=viewTrends");
                 }
@@ -289,7 +289,7 @@ public class MoodServlet extends HttpServlet {
             } else {
                 // For recordMood referrer, go to thank you page
                 request.setAttribute("savedEntry", newEntry);
-                request.getRequestDispatcher("/modules/moodAndWellness/moodThankYou.jsp").forward(request, response);
+                request.getRequestDispatcher("/modules/moodAndWellnessModule/moodThankYou.jsp").forward(request, response);
             }
             
         } catch (Exception e) {
@@ -364,7 +364,7 @@ public class MoodServlet extends HttpServlet {
                 } else {
                     // For recordMood referrer, go to thank you page
                     request.setAttribute("savedEntry", updatedEntry);
-                    request.getRequestDispatcher("/modules/moodAndWellness/moodThankYou.jsp").forward(request, response);
+                    request.getRequestDispatcher("/modules/moodAndWellnessModule/moodThankYou.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect("mood?action=viewTrends");
