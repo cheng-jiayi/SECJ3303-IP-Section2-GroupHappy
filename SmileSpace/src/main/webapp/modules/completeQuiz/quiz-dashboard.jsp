@@ -429,11 +429,9 @@
     <main class="main-container">
         <!-- PAGE HEADER -->
         <section class="page-header">
-            <h1 class="page-title">UC006 - Access Learning Resources (Student)</h1>
-            <p class="page-subtitle">Learning Modules on Stress Management</p>
-            <div class="welcome-message">
-                <p>Feeling overwhelmed? These modules will teach you how to stay calm, balanced, and confident even under pressure. Select a module to begin your learning journey.</p>
-            </div>
+            <h1 class="page-title">Learning Modules on Stress Management</h1>
+            <p class="page-subtitle">Feeling overwhelmed? These modules will teach you how to stay calm, balanced, and confident even under pressure. Select a module to begin your learning journey.</p>
+
         </section>
         
         <!-- CONTROLS SECTION -->
