@@ -235,12 +235,12 @@
     <!-- Action Buttons -->
     <div class="card-container">
        <div class="card" onclick="location.href='mood?action=viewTrends'">
-            <img src="<%= request.getContextPath() %>/modules/moodAndWellness/images/cat_book.png" alt="View Trends">
+            <img src="<%= request.getContextPath() %>/modules/moodAndWellnessModule/images/cat_book.png" alt="View Trends">
             <div class="card-title">View My Mood Trends</div>
         </div>
 
         <div class="card" onclick="location.href='mood?action=add'">
-            <img src="<%= request.getContextPath() %>/modules/moodAndWellness/images/cat_laptop.png" alt="Add Mood">
+            <img src="<%= request.getContextPath() %>/modules/moodAndWellnessModule/images/cat_laptop.png" alt="Add Mood">
             <div class="card-title">Add My Mood</div>
         </div>
     </div>

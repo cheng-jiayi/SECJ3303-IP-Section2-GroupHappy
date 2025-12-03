@@ -206,7 +206,7 @@
             %>
             <label class="feeling-option <%= isChecked ? "checked" : "" %>" data-feeling="<%= feeling %>">
                 <input type="checkbox" name="feelings" value="<%= feeling %>" <%= isChecked ? "checked" : "" %>>
-                <img src="<%= request.getContextPath() %>/modules/moodAndWellness/images/feelings/<%= feeling %>.png" alt="<%= displayName %>" <%= imgStyle %>>
+                <img src="<%= request.getContextPath() %>/modules/moodAndWellnessModule/images/feelings/<%= feeling %>.png" alt="<%= displayName %>" <%= imgStyle %>>
                 <div><%= displayName %></div>
             </label>
             <% } %>

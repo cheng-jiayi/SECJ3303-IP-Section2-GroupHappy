@@ -777,13 +777,13 @@
                             if (feelings.size() == 1) {
                                 // Single mood - show larger icon
                     %>
-                                <div class="mood-icon single" style="background-image: url('<%= request.getContextPath() %>/modules/moodAndWellness/images/feelings/<%= feelings.get(0).toLowerCase() %>.png')"></div>
+                                <div class="mood-icon single" style="background-image: url('<%= request.getContextPath() %>/modules/moodAndWellnessModule/images/feelings/<%= feelings.get(0).toLowerCase() %>.png')"></div>
                     <%
                             } else {
                                 // Multiple moods - show in column
                                 for (String feeling : feelings) {
                     %>
-                                    <div class="mood-icon" style="background-image: url('<%= request.getContextPath() %>/modules/moodAndWellness/images/feelings/<%= feeling.toLowerCase() %>.png')"></div>
+                                    <div class="mood-icon" style="background-image: url('<%= request.getContextPath() %>/modules/moodAndWellnessModule/images/feelings/<%= feeling.toLowerCase() %>.png')"></div>
                     <%
                                 }
                             }
@@ -927,7 +927,7 @@
                                         for (int i = 0; i < Math.min(feelings.size(), 3); i++) {
                                             String feeling = feelings.get(i);
                                 %>
-                                            <img src="<%= request.getContextPath() %>/modules/moodAndWellness/images/feelings/<%= feeling.toLowerCase() %>.png" 
+                                            <img src="<%= request.getContextPath() %>/modules/moodAndWellnessModule/images/feelings/<%= feeling.toLowerCase() %>.png" 
                                                  alt="<%= feeling %>" 
                                                  class="mood-png-icon"
                                                  title="<%= feeling %>">
