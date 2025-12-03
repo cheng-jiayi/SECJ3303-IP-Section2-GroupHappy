@@ -3,36 +3,5 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-    <display-name>MyCafe Web App</display-name>
-
-    <servlet>
-        <servlet-name>CustomerDetailServlet</servlet-name>
-        <servlet-class>mycafe.controller.CustomerDetailServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CustomerDetailServlet</servlet-name>
-        <url-pattern>/customerDetail</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CustomerOrderServlet</servlet-name>
-        <servlet-class>mycafe.controller.CustomerOrderServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CustomerOrderServlet</servlet-name>
-        <url-pattern>/customerOrder</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>PaymentServlet</servlet-name>
-        <servlet-class>mycafe.controller.PaymentServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PaymentServlet</servlet-name>
-        <url-pattern>/paymentConfirm</url-pattern>
-    </servlet-mapping>
-
-    <welcome-file-list>
-        <welcome-file>CustomerDetail.jsp</welcome-file>
-    </welcome-file-list>
+    <display-name>SmileSpace</display-name>
 </web-app>
