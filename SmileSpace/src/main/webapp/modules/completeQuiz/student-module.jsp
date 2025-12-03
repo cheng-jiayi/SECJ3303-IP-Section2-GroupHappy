@@ -122,7 +122,7 @@
 <body>
 
 <div class="top-right">
-    <a href="<%= request.getContextPath() %>/modules/userManagementModule/profiles/studentProfile.jsp" class="home-link">
+    <a href="<%= request.getContextPath() %>/modules/userManagementModule/dashboards/studentDashboard.jsp" class="home-link">
     <div class="logo">
         <i class="fas fa-home"></i>
         SmileSpace

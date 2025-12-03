@@ -138,6 +138,133 @@
             color: #8B7355;
             font-size: 14px;
         }
+        
+        /* Chatbox Styles */
+        .chatbox-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .chatbox-toggle {
+            width: 60px;
+            height: 60px;
+            background: #D7923B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(215, 146, 59, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .chatbox-toggle:hover {
+            background: #CF8224;
+            transform: scale(1.05);
+        }
+        
+        .chatbox {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 300px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chatbox.active {
+            display: flex;
+        }
+        
+        .chatbox-header {
+            background: #D7923B;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbox-header h3 {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .chatbox-body {
+            padding: 20px;
+            background: #FFF8E8;
+        }
+        
+        .chat-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .chat-option {
+            background: white;
+            border: 2px solid #E8D4B9;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #6B4F36;
+        }
+        
+        .chat-option:hover {
+            background: #FFF3C8;
+            border-color: #D7923B;
+            transform: translateY(-2px);
+        }
+        
+        .chat-option-icon {
+            width: 40px;
+            height: 40px;
+            background: #D7923B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .chat-option-content {
+            flex: 1;
+        }
+        
+        .chat-option-title {
+            font-weight: bold;
+            color: #CF8224;
+            margin-bottom: 5px;
+        }
+        
+        .chat-option-desc {
+            font-size: 12px;
+            color: #8B7355;
+        }
     </style>
 </head>
 <body>
@@ -173,7 +300,7 @@
         </div>
 
         <div class="card-container">
-            <div class="card" onclick="alert('Explore Learning Resources clicked!')">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/student-learning-modules'">
                 <div class="card-icon">
                     <i class="fas fa-book"></i>
                 </div>
@@ -224,6 +351,50 @@
         </div>
     </div>
 
+    <!-- Chatbox -->
+    <div class="chatbox-container">
+        <div class="chatbox" id="chatbox">
+            <div class="chatbox-header">
+                <h3><i class="fas fa-robot"></i> AI Assistant</h3>
+                <button class="close-chat" id="closeChat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- In the chatbox section of studentDashboard.jsp -->
+            <div class="chatbox-body">
+                <div class="chat-options">
+                    <div style="margin-bottom:15px; padding:10px; background:#FFF3C8; border-radius:10px;">
+                        <strong>Hi <%= userFullName %>!</strong><br>
+                        Ready to explore mental health topics today?
+                    </div>
+                    <a href="${pageContext.request.contextPath}/modules/AIAssistant/Learn/AILearningHub.jsp" class="chat-option">
+                        <div class="chat-option-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="chat-option-content">
+                            <div class="chat-option-title">Learn</div>
+                            <div class="chat-option-desc">Learn mental health knowledge with AI</div>
+                        </div>
+                    </a>
+                    
+                    <a href="${pageContext.request.contextPath}/modules/AIAssistant/Chat/AIConversationHub.jsp" class="chat-option">
+                        <div class="chat-option-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="chat-option-content">
+                            <div class="chat-option-title">Chat</div>
+                            <div class="chat-option-desc">Get advice and recommendations</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="chatbox-toggle" id="chatToggle">
+            <i class="fas fa-robot"></i>
+        </div>
+    </div>
+
     <script>
         // User dropdown
         const userBtn = document.getElementById('userBtn');
@@ -240,6 +411,26 @@
         
         dropdown.addEventListener('click', function(e) {
             e.stopPropagation();
+        });
+        
+        // Chatbox functionality
+        const chatToggle = document.getElementById('chatToggle');
+        const chatbox = document.getElementById('chatbox');
+        const closeChat = document.getElementById('closeChat');
+        
+        chatToggle.addEventListener('click', function() {
+            chatbox.classList.add('active');
+        });
+        
+        closeChat.addEventListener('click', function() {
+            chatbox.classList.remove('active');
+        });
+        
+        // Close chatbox when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!chatbox.contains(event.target) && !chatToggle.contains(event.target)) {
+                chatbox.classList.remove('active');
+            }
         });
     </script>
 </body>

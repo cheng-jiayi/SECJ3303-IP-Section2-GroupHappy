@@ -48,7 +48,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            /* Remove justify-content: flex-end and margin-left: auto */
+            justify-content: flex-end;
+            margin-left: auto;
         }
 
         .home-link:hover {
