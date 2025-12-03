@@ -187,7 +187,7 @@
                 <div class="card-desc">Review client assessments</div>
             </div>
 
-            <div class="card" onclick="alert('Peer Forum clicked!')">
+            <div class="card" onclick="location.href='../../peerSupportForumModule/forumHome.jsp'">
                 <div class="card-icon">
                     <i class="fas fa-users"></i>
                 </div>
