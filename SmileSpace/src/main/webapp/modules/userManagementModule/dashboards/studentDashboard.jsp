@@ -181,7 +181,7 @@
                 <div class="card-desc">Access educational materials</div>
             </div>
 
-            <div class="card" onclick="alert('Track My Mood clicked!')">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/mood'">
                 <div class="card-icon">
                     <i class="fas fa-heart"></i>
                 </div>
@@ -197,7 +197,7 @@
                 <div class="card-desc">Evaluate your mental health</div>
             </div>
 
-            <div class="card" onclick="alert('Peer Support clicked!')">
+            <div class="card" onclick="location.href='../../peerSupportForumModule/forumHome.jsp'">
                 <div class="card-icon">
                     <i class="fas fa-users"></i>
                 </div>
