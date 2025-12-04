@@ -170,13 +170,13 @@
             <p>System Administration Dashboard</p>
         </div>
         <div class="card-container">
-            <div class="card" onclick="alert('Feedback clicked!')">
-                <div class="card-icon">
-                    <i class="fas fa-comment-dots"></i>
-                </div>
-                <div class="card-title">Share Feedback</div>
-                <div class="card-desc">Provide system feedback</div>
-            </div>
+             <div class="card" onclick="window.location.href='http://localhost:8686/smilespace/modules/feedbackAndAnalyticsModule/feedbackAnalytics.jsp'">
+    <div class="card-icon">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+    <div class="card-title">Review Feedback</div>
+    <div class="card-desc">View user feedback</div>
+</div>
         </div>
     </div>
 
