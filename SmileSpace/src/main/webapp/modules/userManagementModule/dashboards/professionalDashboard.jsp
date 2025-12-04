@@ -195,7 +195,7 @@
                 <div class="card-desc">Connect with colleagues</div>
             </div>
 
-            <div class="card" onclick="location.href='${pageContext.request.contextPath}/counseling?action=professionalSessions'">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/mhpreferral'">
                 <div class="card-icon">
                     <i class="fas fa-comments"></i>
                 </div>

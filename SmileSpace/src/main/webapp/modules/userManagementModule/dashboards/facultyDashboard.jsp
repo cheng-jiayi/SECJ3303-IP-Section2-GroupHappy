@@ -179,7 +179,7 @@
                 <div class="card-desc">Access teaching materials</div>
             </div>
 
-            <div class="card" onclick="location.href='${pageContext.request.contextPath}/referral?action=viewStudents'">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/facultyreferral'">
                 <div class="card-icon">
                     <i class="fas fa-user-graduate"></i>
                 </div>

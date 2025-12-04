@@ -332,7 +332,7 @@
                 <div class="card-desc">Connect with other students</div>
             </div>
 
-            <div class="card" onclick="location.href='${pageContext.request.contextPath}/counseling?action=viewSessions'">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/studentcounseling'">
                 <div class="card-icon">
                     <i class="fas fa-comments"></i>
                 </div>
