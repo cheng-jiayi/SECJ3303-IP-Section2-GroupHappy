@@ -1,13 +1,19 @@
 package smilespace.controller;
 
-import smilespace.model.*;
-import smilespace.service.*;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import smilespace.model.CounselingSession;
+import smilespace.model.Referral;
+import smilespace.model.Student;
+import smilespace.service.CounselingService;
+import smilespace.service.StudentService;
 
 @WebServlet(name = "ReferralServlet", urlPatterns = {
     "/referral", "/counseling", 
@@ -128,7 +134,7 @@ public class ReferralServlet extends HttpServlet {
 
     private void showWelcomePage(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        // Create a simple welcome page since we don't have the JSP yet
+//        Create a simple welcome page since we don't have the JSP yet
         response.setContentType("text/html");
         response.getWriter().println("<h1>SmileSpace Counseling System</h1>");
         response.getWriter().println("<p>Choose your role:</p>");

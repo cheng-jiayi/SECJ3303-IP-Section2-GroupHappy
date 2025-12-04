@@ -203,8 +203,7 @@
                 <div class="card-desc">Schedule counseling sessions</div>
             </div>
 
-            <div class="card" onclick="alert('Feedback clicked!')">
-                <div class="card-icon">
+<div class="card" onclick="window.location.href='<%= request.getContextPath() %>/modules/feedbackAndAnalyticsModule/feedback.jsp'">                <div class="card-icon">
                     <i class="fas fa-comment-dots"></i>
                 </div>
                 <div class="card-title">Professional Feedback</div>

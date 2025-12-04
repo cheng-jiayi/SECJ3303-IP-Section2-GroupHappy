@@ -171,7 +171,7 @@
         </div>
 
         <div class="card-container">
-            <div class="card" onclick="alert('Learning Resources clicked!')">
+            <div class="card" onclick="location.href='${pageContext.request.contextPath}/student-learning-modules'">
                 <div class="card-icon">
                     <i class="fas fa-book"></i>
                 </div>
