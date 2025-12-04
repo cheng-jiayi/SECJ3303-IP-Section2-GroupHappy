@@ -179,13 +179,13 @@
                 <div class="card-desc">Access clinical materials</div>
             </div>
 
-            <div class="card" onclick="alert('Assessments clicked!')">
-                <div class="card-icon">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <div class="card-title">Manage Assessments</div>
-                <div class="card-desc">Review client assessments</div>
-            </div>
+            <div class="card" onclick="window.location.href='http://localhost:8686/smilespace/modules/selfAssessmentModule/assessmentManagement.jsp'">
+    <div class="card-icon">
+        <i class="fas fa-clipboard-check"></i>
+    </div>
+    <div class="card-title">Manage Assessments</div>
+    <div class="card-desc">Review client assessments</div>
+</div>
 
             <div class="card" onclick="location.href='../../peerSupportForumModule/forumHome.jsp'">
                 <div class="card-icon">

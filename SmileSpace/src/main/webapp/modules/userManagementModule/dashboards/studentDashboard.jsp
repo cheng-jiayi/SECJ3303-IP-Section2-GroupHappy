@@ -316,13 +316,13 @@
                 <div class="card-desc">Monitor your emotional wellbeing</div>
             </div>
 
-            <div class="card" onclick="alert('Self-Assessment clicked!')">
-                <div class="card-icon">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <div class="card-title">Take Self-Assessment</div>
-                <div class="card-desc">Evaluate your mental health</div>
-            </div>
+            <div class="card" onclick="window.location.href='http://localhost:8686/smilespace/modules/selfAssessmentModule/assessment.jsp'">
+    <div class="card-icon">
+        <i class="fas fa-clipboard-check"></i>
+    </div>
+    <div class="card-title">Take Self-Assessment</div>
+    <div class="card-desc">Evaluate your mental health</div>
+</div>
 
             <div class="card" onclick="location.href='../../peerSupportForumModule/forumHome.jsp'">
                 <div class="card-icon">
@@ -340,7 +340,7 @@
                 <div class="card-desc">Schedule counseling sessions</div>
             </div>
 
-            <div class="card" onclick="window.location.href='${pageContext.request.contextPath}/modules/feedbackAndAnalyticsModule/feedback.jsp'">
+            <div class="card" onclick="window.location.href='<%= request.getContextPath() %>/modules/feedbackAndAnalyticsModule/feedback.jsp'">
                 <div class="card-icon">
                     <i class="fas fa-comment-dots"></i>
                 </div>
