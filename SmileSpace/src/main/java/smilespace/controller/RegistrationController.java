@@ -72,9 +72,9 @@ public class RegistrationController {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
-        user.setPasswordHash(password); // will be hashed in UserService
-        user.setFullName(username);      // default
-        user.setUserRole("student");     // default role
+        user.setPasswordHash(password);
+        user.setFullName(username);
+        user.setUserRole("student");
         user.setPhone(phone);
         user.setActive(true);
 
