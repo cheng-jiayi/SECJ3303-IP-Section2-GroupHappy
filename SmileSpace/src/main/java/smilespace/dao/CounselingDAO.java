@@ -78,7 +78,7 @@ public class CounselingDAO {
             CounselingSession session = new CounselingSession();
             
             try {
-                // Basic ID fields
+                // Basic ID
                 int sessionId = rs.getInt("session_id");
                 session.setSessionId(sessionId);
                 System.out.println("RowMapper: session_id = " + sessionId);
@@ -118,7 +118,7 @@ public class CounselingDAO {
                 System.out.println("RowMapper: follow_up_actions = " + 
                     (followUpActions != null ? "'" + followUpActions + "'" : "NULL"));
                 
-                // DATETIME fields
+                // DATETIME
                 Timestamp scheduled = rs.getTimestamp("scheduled_datetime");
                 if (scheduled != null) {
                     session.setScheduledDateTime(scheduled.toLocalDateTime());
@@ -129,7 +129,6 @@ public class CounselingDAO {
                     session.setActualDateTime(actual.toLocalDateTime());
                 }
                 
-                // Other text fields
                 session.setCurrentMood(rs.getString("current_mood"));
                 session.setReason(rs.getString("reason"));
                 session.setAdditionalNotes(rs.getString("additional_notes"));
