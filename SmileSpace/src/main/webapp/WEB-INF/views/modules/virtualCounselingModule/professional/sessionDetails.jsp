@@ -617,18 +617,21 @@
                     <% } %>
                 </div>
             </div>
+
             <% if (student.getFaculty() != null && !student.getFaculty().isEmpty()) { %>
             <div class="info-item">
                 <div class="info-label"><i class="fas fa-graduation-cap"></i> Faculty</div>
                 <div class="info-value"><%= student.getFaculty() %></div>
             </div>
             <% } %>
+
             <% if (student.getYear() > 0) { %>
             <div class="info-item">
                 <div class="info-label"><i class="fas fa-calendar-alt"></i> Year</div>
                 <div class="info-value">Year <%= student.getYear() %></div>
             </div>
             <% } %>
+
             <% if (student.getMatricNumber() != null && !student.getMatricNumber().isEmpty()) { %>
             <div class="info-item">
                 <div class="info-label"><i class="fas fa-hashtag"></i> Matric Number</div>
