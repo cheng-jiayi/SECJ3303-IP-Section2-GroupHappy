@@ -240,7 +240,7 @@ public class CounselingController {
         List<CounselingSession> unassignedSessions = counselingService.getSessionsPendingAssignment();
         System.out.println("Unassigned sessions count: " + unassignedSessions.size());
         
-        // Get pending referrals (THIS IS CRITICAL - add this line)
+        // Get pending referrals
         List<Referral> pendingReferrals = referralService.getPendingReferrals();
         System.out.println("Pending referrals count: " + pendingReferrals.size());
         
@@ -274,10 +274,9 @@ public class CounselingController {
             }
         }
         
-        // ADD THESE TO THE MODEL:
         model.addAttribute("mySessions", mySessions);
         model.addAttribute("unassignedSessions", unassignedSessions);
-        model.addAttribute("pendingReferrals", pendingReferrals); // ← ADD THIS LINE
+        model.addAttribute("pendingReferrals", pendingReferrals);
         model.addAttribute("professional", professional);
         
         return "virtualCounselingModule/professional/mhpSessions";
