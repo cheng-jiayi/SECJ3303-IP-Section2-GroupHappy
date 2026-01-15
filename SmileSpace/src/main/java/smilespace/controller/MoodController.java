@@ -122,7 +122,6 @@ public class MoodController {
             return "error";
         }
     }
-    // ===== PRIVATE METHODS =====
     
     private String showMainPage(int userId, String success, Model model) {
         MoodEntry latestMood = moodService.getLatestMoodEntry(userId);
@@ -221,7 +220,7 @@ public class MoodController {
                         e.printStackTrace();
                     }
                     
-                    // Store relative path for database - WITHOUT leading slash
+                    // Store relative path for database
                     uploadedImagePath = "uploads/moods/" + uniqueFileName;
                     System.out.println("DEBUG: Path to store in DB: " + uploadedImagePath);
                 }
@@ -234,7 +233,6 @@ public class MoodController {
             newEntry.setTags(tagSet);
             newEntry.setImagePath(uploadedImagePath);
             
-            // FIX: Use selectedDate if provided, otherwise use today
             if (selectedDate != null) {
                 newEntry.setEntryDate(selectedDate);
             } else {
@@ -440,7 +438,7 @@ public class MoodController {
                 }
             }
 
-            // Handle file upload - USE THE SAME PATH AS addNewMoodEntry
+            // Handle file upload
             if (imageFile != null && !imageFile.isEmpty()) {
                 String fileName = imageFile.getOriginalFilename();
                 if (fileName != null && !fileName.isEmpty()) {
@@ -467,7 +465,6 @@ public class MoodController {
                     
                     imageFile.transferTo(new File(filePath));
                     
-                    // Store path WITHOUT leading slash
                     updatedEntry.setImagePath("uploads/moods/" + uniqueFileName);
                     
                     System.out.println("Image path saved to DB: " + updatedEntry.getImagePath());
@@ -485,7 +482,7 @@ public class MoodController {
             System.out.println("Entry date: " + updatedEntry.getEntryDate());
             
             if (success) {
-                // FIX: ALWAYS redirect to daily view after editing (not thank you page)
+                // ALWAYS redirect to daily view after editing
                 // Add timestamp to prevent browser caching
                 String timestamp = "&t=" + System.currentTimeMillis();
                 String redirectUrl = "redirect:/mood?action=viewDaily&date=" + updatedEntry.getEntryDate() + timestamp;
