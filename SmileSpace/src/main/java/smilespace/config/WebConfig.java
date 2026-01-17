@@ -11,14 +11,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import smilespace.filter.FeedbackAuthorizationFilter;
-import smilespace.filter.SelfAssessmentAuthorizationFilter;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
     "smilespace.controller",
-    "smilespace.controller.feedbackAndAnalytics", 
-    "smilespace.controller.selfAssessment",      
+    "smilespace.controller.feedbackAndAnalytics",  
     "smilespace.service",                        
     "smilespace.dao",                             
     "smilespace.filter"                           
@@ -29,11 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
     public FeedbackAuthorizationFilter feedbackAuthorizationFilter() {
         return new FeedbackAuthorizationFilter();
     }
-    
-    @Bean
-    public SelfAssessmentAuthorizationFilter selfAssessmentAuthorizationFilter() {
-        return new SelfAssessmentAuthorizationFilter();
-    }
+
     
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -45,17 +39,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/feedback") 
                 .excludePathPatterns("/feedback/submit")  
                 .excludePathPatterns("/feedback/my-feedback/**");  
-
-        registry.addInterceptor(selfAssessmentAuthorizationFilter())
-                .addPathPatterns("/self-assessment/manage/**")
-                .addPathPatterns("/self-assessment/delete/**")
-                .addPathPatterns("/self-assessment/export/**")
-                .addPathPatterns("/self-assessment/details/**")
-                .addPathPatterns("/self-assessment/history/**")
-                .excludePathPatterns("/self-assessment")
-                .excludePathPatterns("/self-assessment/submit")
-                .excludePathPatterns("/self-assessment/result/**");
-    }
     
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
