@@ -159,7 +159,22 @@
             <version>2.10.1</version>
             </dependency>
                 </dependencies>
-    
+
+         
+        <!-- iText PDF Core -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.2.5</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+         
     <build>
         <finalName>SmileSpace</finalName>
         <plugins>
