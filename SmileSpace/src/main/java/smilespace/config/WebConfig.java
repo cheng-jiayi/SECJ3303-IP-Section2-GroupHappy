@@ -13,12 +13,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import smilespace.filter.FeedbackAuthorizationFilter;
 import smilespace.filter.SelfAssessmentAuthorizationFilter;
 
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
     "smilespace.controller",
-    "smilespace.filter"
+    "smilespace.controller.feedbackAndAnalytics", 
+    "smilespace.controller.selfAssessment",      
+    "smilespace.service",                        
+    "smilespace.dao",                             
+    "smilespace.filter"                           
 })
 public class WebConfig implements WebMvcConfigurer {
     
@@ -26,10 +29,12 @@ public class WebConfig implements WebMvcConfigurer {
     public FeedbackAuthorizationFilter feedbackAuthorizationFilter() {
         return new FeedbackAuthorizationFilter();
     }
+    
     @Bean
     public SelfAssessmentAuthorizationFilter selfAssessmentAuthorizationFilter() {
         return new SelfAssessmentAuthorizationFilter();
     }
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(feedbackAuthorizationFilter())
@@ -37,9 +42,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/feedback/reply/**")
                 .addPathPatterns("/feedback/resolve/**")
                 .addPathPatterns("/feedback/report/**")
-                .excludePathPatterns("/feedback")
-                .excludePathPatterns("/feedback/submit");
-      
+                .excludePathPatterns("/feedback") 
+                .excludePathPatterns("/feedback/submit")  
+                .excludePathPatterns("/feedback/my-feedback/**");  
+
         registry.addInterceptor(selfAssessmentAuthorizationFilter())
                 .addPathPatterns("/self-assessment/manage/**")
                 .addPathPatterns("/self-assessment/delete/**")
@@ -61,44 +67,34 @@ public class WebConfig implements WebMvcConfigurer {
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Serve uploaded files
         String uploadPath = System.getProperty("user.dir") + "/uploads/";
         System.out.println("DEBUG: Upload path configured: " + uploadPath);
         
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + uploadPath);
         
-        // CSS resources
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/css/");
         
-        // JavaScript resources
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/js/");
         
-        // General images
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/images/");
 
-        // Module Specific images
         registry.addResourceHandler("/modules/**")
                 .addResourceLocations("/WEB-INF/views/modules/");
         
-        // Static resources
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/");
         
-        // WebJars for Bootstrap, jQuery, etc.
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
 
-        // Font Awesome
         registry.addResourceHandler("/fontawesome/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/font-awesome/6.0.0/");
         
-        // Google Fonts (proxy to avoid mixed content issues)
         registry.addResourceHandler("/fonts/**")
                 .addResourceLocations("classpath:/static/fonts/");
     }
-
 }
