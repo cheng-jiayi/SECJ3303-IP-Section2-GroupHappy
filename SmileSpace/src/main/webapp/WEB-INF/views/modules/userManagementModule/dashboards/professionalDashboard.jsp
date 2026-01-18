@@ -183,7 +183,7 @@
                     <i class="fas fa-clipboard-check"></i>
                 </div>
                 <div class="card-title">Manage Assessments</div>
-                <div class="card-desc">Review client assessments</div>
+                <div class="card-desc">Review student assessments</div>
             </div>
 
             <div class="card" onclick="window.location.href='<%= request.getContextPath() %>/forum'">
