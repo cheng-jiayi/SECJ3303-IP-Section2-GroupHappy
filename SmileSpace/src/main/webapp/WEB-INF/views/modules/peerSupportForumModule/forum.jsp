@@ -18,21 +18,49 @@
     <title>Peer Support Forum - SmileSpace</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #D7923B;
+            --primary-dark: #CF8224;
+            --secondary-color: #6B4F36;
+            --secondary-light: #8B7355;
+            --background-light: #FFF8E8;
+            --background-medium: #FFF3C8;
+            --border-color: #E8D4B9;
+            --success-color: #27AE60;
+            --success-dark: #219653;
+            --danger-color: #E74C3C;
+            --danger-dark: #C0392B;
+            --info-color: #3498DB;
+            --info-dark: #2980B9;
+            --gray-color: #8B7355;
+            --gray-dark: #6B4F36;
+            --white: #FFFFFF;
+            --text-color: #6B4F36;
+            --text-light: #8B7355;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 20px rgba(107, 79, 54, 0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 10px;
+            --radius-xl: 15px;
+        }
+        
         * { 
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
         }
+        
         body {
-            background: #FFF8E8;
+            background: var(--background-light);
             font-family: Arial, sans-serif;
-            color: #6B4F36;
+            color: var(--text-color);
             min-height: 100vh;
         }
         
-        /* Header */
+        /* Header - UNCHANGED */
         .header {
-            background: #FFF3C8;
+            background: var(--background-medium);
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
@@ -40,15 +68,15 @@
             box-shadow: 0 2px 10px rgba(107, 79, 54, 0.1);
         }
         .logo h1 {
-            color: #D7923B;
+            color: var(--primary-color);
             font-size: 32px;
         }
         .user-menu {
             position: relative;
         }
         .user-btn {
-            background: #D7923B;
-            color: white;
+            background: var(--primary-color);
+            color: var(--white);
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -60,8 +88,8 @@
             position: absolute;
             top: 60px;
             right: 0;
-            background: white;
-            border-radius: 10px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             min-width: 200px;
             display: none;
@@ -70,13 +98,13 @@
         .dropdown.show { display: block; }
         .user-info {
             padding: 15px;
-            background: #FFF3C8;
-            border-bottom: 2px solid #E8D4B9;
+            background: var(--background-medium);
+            border-bottom: 2px solid var(--border-color);
         }
         .user-name { font-weight: bold; }
         .user-role {
-            background: #D7923B;
-            color: white;
+            background: var(--primary-color);
+            color: var(--white);
             padding: 3px 10px;
             border-radius: 15px;
             font-size: 12px;
@@ -89,11 +117,121 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: #6B4F36;
+            color: var(--text-color);
             border-bottom: 1px solid #eee;
         }
-        .menu-item:hover { background: #FFF8E8; }
-        .menu-item.logout { color: #E74C3C; }
+        .menu-item:hover { background: var(--background-light); }
+        .menu-item.logout { color: var(--danger-color); }
+        
+        /* Button Base Styles */
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 14px;
+            min-height: 40px;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: var(--white);
+        }
+        
+        .btn-success:hover {
+            background: var(--success-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+        
+        .btn-danger:hover {
+            background: var(--danger-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-info {
+            background: var(--info-color);
+            color: var(--white);
+        }
+        
+        .btn-info:hover {
+            background: var(--info-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-gray {
+            background: var(--gray-color);
+            color: var(--white);
+        }
+        
+        .btn-gray:hover {
+            background: var(--gray-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        /* Action Buttons */
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            border: 1px solid;
+            background: var(--white);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-edit {
+            color: var(--info-color);
+            border-color: var(--info-color);
+        }
+        
+        .btn-edit:hover {
+            background: var(--info-color);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-delete {
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+        
+        .btn-delete:hover {
+            background: var(--danger-color);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
         
         /* Container */
         .container {
@@ -107,13 +245,15 @@
             margin-bottom: 40px;
             text-align: center;
         }
+        
         .welcome h2 {
-            color: #D7923B;
+            color: var(--primary-color);
             font-size: 28px;
             margin-bottom: 10px;
         }
+        
         .welcome p {
-            color: #8B7355;
+            color: var(--text-light);
             font-size: 16px;
         }
         
@@ -124,49 +264,96 @@
             gap: 30px;
         }
         
-        /* Create Post Card */
-        .create-post-card {
-            background: #FFF3C8;
-            border-radius: 15px;
+        /* Cards */
+        .create-post-card,
+        .posts-container,
+        .sidebar-card {
+            background: var(--background-medium);
+            border-radius: var(--radius-xl);
             padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid #E8D4B9;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
         }
         
-        .create-post-card h3 {
-            color: #D7923B;
-            font-size: 20px;
-            margin-bottom: 20px;
+        .create-post-card {
+            margin-bottom: 30px;
+        }
+        
+        /* Headers */
+        .create-post-card h3,
+        .posts-header h2,
+        .sidebar-card h3,
+        .modal-header h3,
+        .replies-header,
+        .empty-state h3 {
+            color: var(--primary-color);
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .post-form textarea {
+        .create-post-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .posts-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .posts-header h2 {
+            font-size: 24px;
+        }
+        
+        /* Forms */
+        .post-form textarea,
+        .reply-form textarea,
+        .modal-body textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #E8D4B9;
-            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
             font-family: Arial, sans-serif;
             font-size: 16px;
             resize: vertical;
+            font-family: inherit;
+            background: var(--white);
+        }
+        
+        .post-form textarea:focus,
+        .reply-form textarea:focus,
+        .modal-body textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .post-form textarea {
             min-height: 120px;
             margin-bottom: 15px;
-            background: white;
         }
         
-        .post-form textarea:focus {
-            outline: none;
-            border-color: #D7923B;
+        .reply-form textarea {
+            min-height: 80px;
+            margin-bottom: 10px;
         }
         
-        .form-options {
+        .modal-body textarea {
+            min-height: 150px;
+            margin-bottom: 20px;
+            background: var(--background-light);
+        }
+        
+        /* Form Options */
+        .form-options,
+        .reply-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
+        /* Checkbox */
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -177,63 +364,22 @@
         .checkbox-group input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: #D7923B;
+            accent-color: var(--primary-color);
             cursor: pointer;
-        }
-        
-        .btn-post {
-            background: #D7923B;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-        
-        .btn-post:hover {
-            background: #CF8224;
-            transform: translateY(-2px);
-        }
-        
-        /* Posts Container */
-        .posts-container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .posts-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #E8D4B9;
-        }
-        
-        .posts-header h2 {
-            color: #D7923B;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         /* Post Item */
         .post-item {
-            background: #FFF8E8;
-            border-radius: 15px;
+            background: var(--background-light);
+            border-radius: var(--radius-xl);
             padding: 25px;
             margin-bottom: 25px;
-            border: 2px solid #E8D4B9;
-            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
         }
         
         .post-item:hover {
-            box-shadow: 0 8px 20px rgba(107, 79, 54, 0.15);
+            box-shadow: var(--shadow-hover);
         }
         
         .post-header {
@@ -242,7 +388,7 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #E8D4B9;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .post-author {
@@ -255,11 +401,11 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: #D7923B;
+            background: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--white);
             font-weight: bold;
             font-size: 20px;
         }
@@ -271,139 +417,61 @@
         
         .author-name {
             font-weight: bold;
-            color: #6B4F36;
+            color: var(--text-color);
             font-size: 16px;
         }
         
-        .post-time {
+        .post-time,
+        .reply-time {
             font-size: 14px;
-            color: #8B7355;
-        }
-        
-        .post-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-action {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            border: 1px solid;
-            background: white;
-            transition: all 0.2s;
-        }
-        
-        .btn-edit {
-            color: #3498DB;
-            border-color: #3498DB;
-        }
-        
-        .btn-edit:hover {
-            background: #3498DB;
-            color: white;
-        }
-        
-        .btn-delete {
-            color: #E74C3C;
-            border-color: #E74C3C;
-        }
-        
-        .btn-delete:hover {
-            background: #E74C3C;
-            color: white;
+            color: var(--text-light);
         }
         
         /* Post Content */
         .post-content {
             font-size: 16px;
             line-height: 1.6;
-            color: #6B4F36;
+            color: var(--text-color);
             margin-bottom: 25px;
             padding: 20px;
-            background: white;
-            border-radius: 10px;
-            border-left: 4px solid #D7923B;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-color);
             white-space: pre-wrap;
         }
         
         /* Reply Form */
         .reply-form {
-            background: #FFF3C8;
+            background: var(--background-medium);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: var(--radius-lg);
             margin-top: 20px;
             margin-bottom: 25px;
-        }
-        
-        .reply-form textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #E8D4B9;
-            border-radius: 8px;
-            font-family: Arial, sans-serif;
-            font-size: 15px;
-            resize: vertical;
-            min-height: 80px;
-            margin-bottom: 10px;
-            background: white;
-        }
-        
-        .reply-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .btn-reply {
-            background: #27AE60;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s;
-        }
-        
-        .btn-reply:hover {
-            background: #219653;
         }
         
         /* Replies Section */
         .replies-section {
             margin-top: 25px;
             padding-top: 20px;
-            border-top: 2px solid #E8D4B9;
+            border-top: 2px solid var(--border-color);
         }
         
         .replies-header {
-            color: #D7923B;
             font-size: 18px;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .reply-item {
-            background: white;
-            border-radius: 10px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             padding: 20px;
             margin-bottom: 15px;
-            border: 1px solid #E8D4B9;
-            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
         
         .reply-item:hover {
-            border-color: #D7923B;
+            border-color: var(--primary-color);
             background: #FFFEF5;
         }
         
@@ -416,23 +484,18 @@
         
         .reply-author {
             font-weight: bold;
-            color: #6B4F36;
+            color: var(--text-color);
             font-size: 15px;
-        }
-        
-        .reply-time {
-            font-size: 13px;
-            color: #8B7355;
         }
         
         .reply-content {
             font-size: 15px;
             line-height: 1.5;
-            color: #6B4F36;
+            color: var(--text-color);
             white-space: pre-wrap;
             padding: 10px;
-            background: #FFF8E8;
-            border-radius: 8px;
+            background: var(--background-light);
+            border-radius: var(--radius-md);
         }
         
         /* Sidebar */
@@ -442,21 +505,9 @@
             gap: 20px;
         }
         
-        .sidebar-card {
-            background: #FFF3C8;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid #E8D4B9;
-        }
-        
         .sidebar-card h3 {
-            color: #D7923B;
             font-size: 18px;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .community-guidelines {
@@ -465,8 +516,8 @@
         
         .community-guidelines li {
             padding: 10px 0;
-            border-bottom: 1px solid #E8D4B9;
-            color: #6B4F36;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
             display: flex;
             align-items: flex-start;
             gap: 10px;
@@ -477,7 +528,7 @@
         }
         
         .community-guidelines i {
-            color: #27AE60;
+            color: var(--success-color);
             margin-top: 3px;
         }
         
@@ -492,23 +543,23 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 15px;
-            background: #FFF8E8;
-            border-radius: 8px;
-            transition: all 0.3s;
+            background: var(--background-light);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
         }
         
         .stat-item-sidebar:hover {
-            background: #E8D4B9;
+            background: var(--border-color);
         }
         
         .stat-label-sidebar {
-            color: #6B4F36;
+            color: var(--text-color);
             font-weight: 500;
         }
         
         .stat-value-sidebar {
             font-weight: bold;
-            color: #D7923B;
+            color: var(--primary-color);
         }
         
         /* Modal */
@@ -526,13 +577,13 @@
         }
         
         .modal-content {
-            background: white;
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: var(--radius-xl);
             padding: 30px;
             width: 90%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 2px solid #D7923B;
+            border: 2px solid var(--primary-color);
         }
         
         .modal-header {
@@ -542,30 +593,17 @@
             margin-bottom: 20px;
         }
         
-        .modal-header h3 {
-            color: #D7923B;
-            font-size: 20px;
-        }
-        
         .close-btn {
             background: none;
             border: none;
             font-size: 24px;
-            color: #E74C3C;
+            color: var(--danger-color);
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .modal-body textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #E8D4B9;
-            border-radius: 10px;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            resize: vertical;
-            min-height: 150px;
-            margin-bottom: 20px;
-            background: #FFF8E8;
+        .close-btn:hover {
+            transform: scale(1.1);
         }
         
         .modal-footer {
@@ -574,54 +612,38 @@
             gap: 15px;
         }
         
-        .btn-save {
-            background: #27AE60;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+        /* Report Styles */
+        .report-input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-family: inherit;
         }
         
-        .btn-save:hover {
-            background: #219653;
-        }
-        
-        .btn-cancel {
-            background: #8B7355;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-cancel:hover {
-            background: #6B4F36;
+        .report-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
         
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #8B7355;
+            color: var(--text-light);
         }
         
         .empty-state i {
             font-size: 64px;
             margin-bottom: 20px;
-            color: #E8D4B9;
+            color: var(--border-color);
         }
         
         .empty-state h3 {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #D7923B;
         }
         
         .empty-state p {
@@ -654,7 +676,8 @@
                 justify-content: flex-end;
             }
             
-            .form-options {
+            .form-options,
+            .reply-options {
                 flex-direction: column;
                 gap: 15px;
                 align-items: flex-start;
@@ -668,6 +691,11 @@
             
             .logo h1 {
                 font-size: 24px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -688,6 +716,9 @@
                 </div>
                 <a href="${pageContext.request.contextPath}/dashboard" class="menu-item">
                     <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="${pageContext.request.contextPath}/reports/my" class="menu-item">
+                    <i class="fas fa-flag"></i> My Reports
                 </a>
                 <a href="${pageContext.request.contextPath}/profile" class="menu-item">
                     <i class="fas fa-user-edit"></i> Manage Profile
@@ -719,7 +750,7 @@
                                 <input type="checkbox" id="anonymousPost" name="anonymous">
                                 <label for="anonymousPost">Post Anonymously</label>
                             </div>
-                            <button type="submit" class="btn-post">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-paper-plane"></i> Publish Post
                             </button>
                         </div>
@@ -791,7 +822,19 @@
                                     <div class="post-content">
                                         ${fn:escapeXml(post.content)}
                                     </div>
-                                    
+
+                                    <!-- REPORT POST FORM (COMPATIBLE WITH NEW SQL) -->
+                                    <c:if test="${user != null && user.userId != post.user.userId}">
+                                        <form action="${pageContext.request.contextPath}/reports/submit" method="post" style="margin-top: 10px; display:flex; gap: 5px;">
+                                            <input type="hidden" name="type" value="post">
+                                            <input type="hidden" name="targetId" value="${post.postId}">
+                                            <input type="text" name="reason" placeholder="Reason for reporting..." class="report-input" required>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-flag"></i> Report
+                                            </button>
+                                        </form>
+                                    </c:if>
+
                                     <!-- Reply Form -->
                                     <div class="reply-form">
                                         <form action="${pageContext.request.contextPath}/forum/reply" method="post">
@@ -802,7 +845,7 @@
                                                     <input type="checkbox" id="anonymousReply-${post.postId}" name="anonymous">
                                                     <label for="anonymousReply-${post.postId}">Reply Anonymously</label>
                                                 </div>
-                                                <button type="submit" class="btn-reply">
+                                                <button type="submit" class="btn btn-success">
                                                     <i class="fas fa-reply"></i> Post Reply
                                                 </button>
                                             </div>
@@ -835,6 +878,19 @@
                                                     <div class="reply-content">
                                                         ${fn:escapeXml(reply.content)}
                                                     </div>
+
+                                                    <!-- REPORT REPLY FORM -->
+                                                    <c:if test="${user != null && user.userId != reply.user.userId}">
+                                                        <form action="${pageContext.request.contextPath}/reports/submit" method="post" style="margin-top: 5px; display:flex; gap: 5px;">
+                                                            <input type="hidden" name="type" value="reply">
+                                                            <input type="hidden" name="targetId" value="${reply.replyId}">
+                                                            <input type="text" name="reason" placeholder="Reason for reporting..." class="report-input" required>
+                                                            <button type="submit" class="btn btn-danger">
+                                                                <i class="fas fa-flag"></i> Report
+                                                            </button>
+                                                        </form>
+                                                    </c:if>
+
                                                     <c:if test="${user != null && user.userId == reply.user.userId}">
                                                         <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: flex-end;">
                                                             <button class="btn-action btn-edit edit-reply-btn" 
@@ -889,7 +945,7 @@
                                 <c:set var="userPostCount" value="${userPostCount + 1}" />
                             </c:if>
                         </c:forEach>
-                        
+
                         <c:set var="userReplyCount" value="0" />
                         <c:forEach var="post" items="${posts}">
                             <c:forEach var="reply" items="${post.replies}">
@@ -898,7 +954,7 @@
                                 </c:if>
                             </c:forEach>
                         </c:forEach>
-                        
+
                         <div class="stat-item-sidebar">
                             <span class="stat-label-sidebar">Your Posts</span>
                             <span class="stat-value-sidebar">${userPostCount}</span>
@@ -930,8 +986,8 @@
                     <textarea id="editContent" name="content" required></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-                    <button type="submit" class="btn-save">Save Changes</button>
+                    <button type="button" class="btn btn-gray" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -941,38 +997,34 @@
         // User dropdown
         const userBtn = document.getElementById('userBtn');
         const dropdown = document.getElementById('dropdown');
-        
+
         userBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             dropdown.classList.toggle('show');
         });
-        
+
         document.addEventListener('click', function() {
             dropdown.classList.remove('show');
         });
-        
+
         dropdown.addEventListener('click', function(e) {
             e.stopPropagation();
         });
-        
+
         // Edit modal functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle edit button clicks
             document.addEventListener('click', function(e) {
                 const editBtn = e.target.closest('.btn-edit');
                 if (!editBtn) return;
-                
+
                 e.preventDefault();
-                
-                if (editBtn.classList.contains('edit-post-btn') || editBtn.classList.contains('edit-reply-btn')) {
-                    const type = editBtn.dataset.type;
-                    const id = editBtn.dataset.id;
-                    const content = editBtn.dataset.content;
-                    openEditModal(type, id, content);
-                }
+
+                const type = editBtn.dataset.type;
+                const id = editBtn.dataset.id;
+                const content = editBtn.dataset.content;
+                openEditModal(type, id, content);
             });
-            
-            // Form validation
+
             const forms = document.querySelectorAll('form');
             forms.forEach(form => {
                 form.addEventListener('submit', function(e) {
@@ -984,8 +1036,7 @@
                     }
                 });
             });
-            
-            // Auto-resize textareas
+
             const textareas = document.querySelectorAll('textarea');
             textareas.forEach(textarea => {
                 textarea.addEventListener('input', function() {
@@ -994,17 +1045,16 @@
                 });
             });
         });
-        
+
         function openEditModal(type, id, content) {
             const modal = document.getElementById('editModal');
             const form = document.getElementById('editForm');
             const contentTextarea = document.getElementById('editContent');
             const editIdInput = document.getElementById('editId');
-            
+
             modal.style.display = 'flex';
             contentTextarea.value = content;
-            
-            // Set form action and input name based on type
+
             if (type === 'post') {
                 form.action = '${pageContext.request.contextPath}/forum/post/edit';
                 editIdInput.name = 'postId';
@@ -1013,26 +1063,23 @@
                 editIdInput.name = 'replyId';
             }
             editIdInput.value = id;
-            
-            // Focus on textarea
+
             setTimeout(() => {
                 contentTextarea.focus();
                 contentTextarea.select();
             }, 100);
         }
-        
+
         function closeEditModal() {
             document.getElementById('editModal').style.display = 'none';
         }
-        
-        // Close modal with Escape key
+
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeEditModal();
             }
         });
-        
-        // Close modal when clicking outside
+
         window.addEventListener('click', function(event) {
             const modal = document.getElementById('editModal');
             if (event.target === modal) {

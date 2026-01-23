@@ -32,8 +32,10 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void deleteReply(int replyId, int userId) {
+        // Fetch reply from DAO
         Reply reply = replyDAO.getReplyById(replyId);
 
+        // Only delete if the logged-in user is the owner
         if (reply != null && reply.getUserId() == userId) {
             replyDAO.deleteReply(replyId); // call DAO to delete
         }

@@ -184,6 +184,14 @@
                 <div class="card-title">User Management</div>
                 <div class="card-desc">Manage system users</div>
             </div>
+
+            <div class="card" onclick="window.location.href='<%= request.getContextPath() %>/reports/admin'">
+                <div class="card-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <div class="card-title">Peer Support Forum Reports</div>
+                <div class="card-desc">Manage Reports</div>
+            </div>
             
         </div>
     </div>

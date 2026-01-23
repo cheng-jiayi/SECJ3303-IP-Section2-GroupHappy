@@ -300,11 +300,11 @@
                         <input type="tel" id="phone" name="phone" 
                                class="form-control"
                                placeholder="Enter your phone number" 
-                               pattern="[0-9]{10,15}" 
+                               pattern="[0-9/-]{10,15}" 
                                title="10-15 digits only"
                                required>
                     </div>
-                    <div class="hint">Numbers only, no spaces or dashes</div>
+                    <div class="hint">Numbers and dashes only</div>
                 </div>
                 
                 <!-- Email -->

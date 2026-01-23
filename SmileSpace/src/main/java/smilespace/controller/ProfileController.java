@@ -17,22 +17,53 @@ public class ProfileController {
     @Autowired
     private UserDAO userDAO;
 
-    /* ================= VIEW PROFILE ================= */
+    //View Profile
     @GetMapping
     public String viewProfile(HttpSession session, Model model) {
+        System.out.println("=== DEBUG ProfileController.viewProfile() ===");
 
+        // Try to get user from session
+        User sessionUser = (User) session.getAttribute("user");
         Integer userId = (Integer) session.getAttribute("userId");
         String role = (String) session.getAttribute("userRole");
 
-        if (userId == null) {
+        System.out.println("Session user: " + (sessionUser != null ? sessionUser.getFullName() : "null"));
+        System.out.println("Session userId: " + userId);
+        System.out.println("Session role: " + role);
+
+        User user = null;
+
+        if (sessionUser != null) {
+            // Always fetch fresh data from DB
+            user = userDAO.getUserById(sessionUser.getUserId());
+            // Update session with fresh user object
+            session.setAttribute("user", user);
+        } else if (userId != null) {
+            user = userDAO.getUserById(userId);
+            if (user != null) {
+                // Save user object and role in session
+                session.setAttribute("user", user);
+                session.setAttribute("userRole", user.getUserRole());
+                session.setAttribute("userId", user.getUserId());
+            }
+        }
+
+        if (user == null) {
+            System.out.println("=== ERROR: No user found, redirecting to login ===");
             return "redirect:/login";
         }
 
-        User user = userDAO.getUserById(userId);
-        model.addAttribute("user", user);
-        model.addAttribute("userRole", role);
+        System.out.println("Database user found: " + user.getFullName());
+        System.out.println("Faculty from DB: " + user.getFaculty());
+        System.out.println("Email from DB: " + user.getEmail());
 
-        return "/userManagementModule/profile"; // profile.jsp
+        model.addAttribute("user", user);
+        model.addAttribute("userRole", role != null ? role : user.getUserRole());
+
+        System.out.println("DEBUG faculty: '" + user.getFaculty() + "'");
+        System.out.println("DEBUG faculty class: " + (user.getFaculty() != null ? user.getFaculty().getClass().getName() : "null"));
+
+        return "/userManagementModule/profile";
     }
 
     /* ================= UPDATE PROFILE ================= */
@@ -46,20 +77,20 @@ public class ProfileController {
             @RequestParam(required = false) Integer year,
             HttpSession session
     ) {
-
-        Integer userId = (Integer) session.getAttribute("userId");
+        User sessionUser = (User) session.getAttribute("user");
         String role = (String) session.getAttribute("userRole");
 
-        if (userId == null) {
+        if (sessionUser == null) {
             return "redirect:/login";
         }
 
-        User user = userDAO.getUserById(userId);
+        // Get fresh user from database
+        User user = userDAO.getUserById(sessionUser.getUserId());
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPhone(phone);
 
-        // Only students
+        // Only students can update these
         if ("student".equals(role)) {
             user.setMatricNumber(matricNumber);
             user.setFaculty(faculty);
@@ -68,10 +99,21 @@ public class ProfileController {
 
         userDAO.updateUser(user);
 
-        // Update session values
+        // Update session values - ALSO update the user object
         session.setAttribute("userFullName", fullName);
         session.setAttribute("email", email);
         session.setAttribute("phone", phone);
+        
+        // Update the user object in session with new data
+        sessionUser.setFullName(fullName);
+        sessionUser.setEmail(email);
+        sessionUser.setPhone(phone);
+        if ("student".equals(role)) {
+            sessionUser.setMatricNumber(matricNumber);
+            sessionUser.setFaculty(faculty);
+            sessionUser.setYear(year);
+        }
+        session.setAttribute("user", sessionUser);
 
         return "redirect:/profile";
     }
@@ -82,8 +124,8 @@ public class ProfileController {
             @RequestParam String newPassword,
             HttpSession session
     ) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
             return "redirect:/login";
         }
 
@@ -91,9 +133,9 @@ public class ProfileController {
         String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
 
         // Update in DB
-        userDAO.updatePassword(userId, hashed);
+        userDAO.updatePassword(user.getUserId(), hashed);
 
-        // Set a session attribute
+        // Optionally, set a session attribute or flash message
         session.setAttribute("message", "Password updated successfully!");
 
         return "redirect:/profile";

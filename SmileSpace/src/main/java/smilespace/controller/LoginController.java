@@ -56,7 +56,7 @@ public class LoginController {
             
             if (password == null || password.trim().isEmpty()) {
                 model.addAttribute("error", "Password is required");
-                model.addAttribute("username", username);
+                model.addAttribute("username", username); // Keep username
                 return "userManagementModule/loginPage";
             }
             
@@ -79,7 +79,7 @@ public class LoginController {
                 
             } else {
                 model.addAttribute("error", "Invalid username or password");
-                model.addAttribute("username", username);
+                model.addAttribute("username", username); // Keep username
                 System.out.println("=== DEBUG: Login FAILED ===");
                 return "userManagementModule/loginPage";
             }
@@ -87,7 +87,7 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "System error: " + e.getMessage());
-            model.addAttribute("username", username);
+            model.addAttribute("username", username); // Keep username
             return "userManagementModule/loginPage";
         }
     }

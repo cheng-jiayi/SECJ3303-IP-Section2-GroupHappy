@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.lang.reflect.Field" %>
 <%
     // Check if user is logged in
     String userRole = (String) session.getAttribute("userRole");
@@ -9,7 +10,28 @@
         response.sendRedirect(request.getContextPath() + "/login");
         return;
     }
+    
+    // Get user object from request scope for the scriptlet
+    Object userObj = request.getAttribute("user");
 %>
+
+<%!
+    // Method declaration block
+    public String getFacultyValue(Object obj) {
+        if (obj == null) {
+            return "";
+        }
+        try {
+            Field field = obj.getClass().getDeclaredField("faculty");
+            field.setAccessible(true);
+            Object value = field.get(obj);
+            return value == null ? "" : value.toString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +60,6 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(107, 79, 54, 0.1);
-            border-bottom: 3px solid #D7923B;
         }
         
         .logo h1 {
@@ -542,9 +563,6 @@
                 <a href="${pageContext.request.contextPath}/dashboard" class="menu-item">
                     <i class="fas fa-home"></i> Dashboard
                 </a>
-                <a href="${pageContext.request.contextPath}/profile" class="menu-item">
-                    <i class="fas fa-user-edit"></i> My Profile
-                </a>
                 <a href="${pageContext.request.contextPath}/logout" class="menu-item logout">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
@@ -604,30 +622,34 @@
                                 <i class="fas fa-id-card input-icon"></i>
                             </div>
                         </div>
-                        
-                        <!-- Student-specific fields -->
-                        <c:if test="${userRole == 'student'}">
+
+                        <c:if test="${userRole != 'admin' and userRole != 'professional'}">
                             <div class="form-group">
-                                <label for="matricNumber">Matric Number</label>
+                                <label for="faculty">Faculty</label>
                                 <div class="input-group">
-                                    <input type="text" name="matricNumber" value="${user.matricNumber}" readonly>
-                                    <i class="fas fa-id-badge input-icon"></i>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="faculty">faculty</label>
-                                <div class="input-group">
-                                    <input type="text" name="faculty" value="${user.faculty}" readonly>
+                                    <input type="text" name="faculty"
+                                        value="<%= getFacultyValue(userObj) %>"
+                                        readonly>
                                     <i class="fas fa-graduation-cap input-icon"></i>
                                 </div>
                             </div>
-                            
+                        </c:if>
+
+                        <!-- Student-specific fields -->
+                        <c:if test="${userRole == 'student'}">
                             <div class="form-group">
                                 <label for="year">Year</label>
                                 <div class="input-group">
                                     <input type="number" name="year" value="${user.year}" readonly>
                                     <i class="fas fa-calendar input-icon"></i>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="matricNumber">Matric Number</label>
+                                <div class="input-group">
+                                    <input type="text" name="matricNumber" value="${user.matricNumber}" readonly>
+                                    <i class="fas fa-id-badge input-icon"></i>
                                 </div>
                             </div>
                         </c:if>
@@ -732,48 +754,96 @@
             e.stopPropagation();
         });
         
-        // Profile form functionality
-        const editBtn = document.getElementById('editBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
+    // Profile form functionality - SIMPLIFIED GUARANTEED VERSION
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    // Get ALL input fields except username
+    const editableInputs = document.querySelectorAll('.input-group input:not([name="username"])');
+
+    // Enable editing - SUPER SIMPLE VERSION
+    editBtn.addEventListener('click', function() {
+        console.log('=== EDIT CLICKED ===');
         
-        // Fields that can be edited
-        const editableFields = ['fullName', 'phone', 'email'];
-        <c:if test="${userRole == 'student'}">
-            editableFields.push('matricNumber', 'faculty', 'year');
-        </c:if>
-        
-        // Enable editing
-        editBtn.addEventListener('click', function() {
-            editableFields.forEach(fieldName => {
-                const field = document.querySelector(`input[name="${fieldName}"]`);
-                if (field) {
-                    field.readOnly = false;
-                    field.style.background = '#FFFEF9';
-                    field.style.color = '#6B4F36';
-                }
-            });
+        editableInputs.forEach(field => {
+            console.log(`Before: ${field.name} - readonly=${field.readOnly}`);
             
-            editBtn.style.display = 'none';
-            saveBtn.style.display = 'flex';
-            cancelBtn.style.display = 'flex';
+            // Method 1: Remove attribute completely
+            field.removeAttribute('readonly');
+            
+            // Method 2: Also set property
+            field.readOnly = false;
+            
+            // Method 3: Force remove CSS class if exists
+            field.classList.remove('readonly');
+            
+            // Visual changes
+            field.style.backgroundColor = '#FFFEF9';
+            field.style.color = '#6B4F36';
+            field.style.cursor = 'text';
+            field.style.pointerEvents = 'auto';
+            
+            console.log(`After: ${field.name} - readonly=${field.readOnly}`);
         });
         
-        // Cancel editing
-        cancelBtn.addEventListener('click', function() {
-            editableFields.forEach(fieldName => {
-                const field = document.querySelector(`input[name="${fieldName}"]`);
-                if (field) {
-                    field.readOnly = true;
-                    field.style.background = '#FFF8E8';
-                    field.style.color = '#8B7355';
-                }
-            });
+        // Toggle buttons
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'flex';
+        cancelBtn.style.display = 'flex';
+        
+        // Test: try to focus on first field
+        editableInputs[0]?.focus();
+    });
+
+    // Cancel editing
+    cancelBtn.addEventListener('click', function() {
+        console.log('=== CANCEL CLICKED ===');
+        
+        editableInputs.forEach(field => {
+            console.log(`Before cancel: ${field.name} - readonly=${field.readOnly}`);
             
-            editBtn.style.display = 'flex';
-            saveBtn.style.display = 'none';
-            cancelBtn.style.display = 'none';
+            // Restore original values from data attributes
+            const originalValue = field.getAttribute('data-original') || field.defaultValue;
+            if (originalValue) {
+                field.value = originalValue;
+            }
+            
+            // Set readonly
+            field.setAttribute('readonly', 'readonly');
+            field.readOnly = true;
+            
+            // Visual changes
+            field.style.backgroundColor = '#FFF8E8';
+            field.style.color = '#8B7355';
+            field.style.cursor = 'not-allowed';
+            
+            console.log(`After cancel: ${field.name} - readonly=${field.readOnly}`);
         });
+        
+        // Toggle buttons
+        editBtn.style.display = 'flex';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+    });
+
+    // Store original values on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('=== PAGE LOADED ===');
+        
+        editableInputs.forEach(field => {
+            // Store original value
+            field.setAttribute('data-original', field.value);
+            
+            // Set initial cursor
+            if (field.readOnly) {
+                field.style.cursor = 'not-allowed';
+            }
+            
+            // Debug log
+            console.log(`${field.name}: value="${field.value}", readonly=${field.readOnly}`);
+        });
+    });
         
         // Password modal functions
         function showPasswordModal() { 
@@ -843,13 +913,15 @@
             }
             
             // Validate phone number (basic check)
-            const phoneRegex = /^[0-9]{10,15}$/;
+            const phoneRegex = /^[0-9\-]{10,15}$/;
             if (!phoneRegex.test(phoneField.value)) {
                 e.preventDefault();
                 phoneField.style.borderColor = '#E74C3C';
                 alert('Phone number should contain 10-15 digits only.');
                 return;
             }
+            
+            console.log('Form submitted successfully');
         });
     </script>
 </body>

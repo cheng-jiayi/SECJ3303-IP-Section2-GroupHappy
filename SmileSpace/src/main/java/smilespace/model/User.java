@@ -145,6 +145,7 @@ public class User {
         this.assessmentCategory = assessmentCategory;
     }
     
+    // Helper method for display
     public String getMoodStabilityText() {
         if (moodStability == null) return "Not Available";
         if (moodStability >= 80) return "Very Stable";

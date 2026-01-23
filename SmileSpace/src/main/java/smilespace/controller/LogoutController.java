@@ -56,10 +56,12 @@ public class LogoutController {
             Object user = session.getAttribute("user");
             if (user != null) {
                 try {
+                    // Assuming User class has getUsername() method
                     java.lang.reflect.Method getUsername = user.getClass()
                             .getMethod("getUsername");
                     return (String) getUsername.invoke(user);
                 } catch (Exception e) {
+                    // Fallback to session attribute
                     return (String) session.getAttribute("username");
                 }
             }
@@ -92,7 +94,7 @@ public class LogoutController {
         HttpSession session = request.getSession(false);
         if (session != null) {
             try {
-                // Clear all attributes first
+                // Optional: Clear all attributes first
                 java.util.Enumeration<String> attributeNames = session.getAttributeNames();
                 while (attributeNames.hasMoreElements()) {
                     session.removeAttribute(attributeNames.nextElement());

@@ -264,7 +264,7 @@ public class UserDAO {
         }
     }
 
-    // WJX: New RowMapper for at-risk students (includes risk fields)
+    // New RowMapper for at-risk students (includes risk fields)
     private static class AtRiskUserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -284,7 +284,7 @@ public class UserDAO {
             }
             user.setYear(year);
             
-            // WJX: Risk assessment fields
+            // Risk assessment fields
             user.setRiskLevel(rs.getString("risk_level"));
             user.setRecentMood(rs.getString("recent_mood"));
             user.setMoodStability(rs.getDouble("mood_stability"));
