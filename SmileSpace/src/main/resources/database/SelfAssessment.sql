@@ -279,20 +279,6 @@ INSERT INTO dass_answers (assessment_id, question_number, answer_value, question
 (5, 1, 2, 'stress'), (5, 6, 1, 'stress'), (5, 8, 3, 'stress'),
 (5, 11, 1, 'stress'), (5, 12, 2, 'stress'), (5, 14, 1, 'stress'), (5, 18, 1, 'stress');
 
--- Insert sample assessment history records
-INSERT INTO assessment_history (assessment_id, user_id, action_type, action_details) VALUES
-(1, 1, 'ASSESSMENT_COMPLETED', 'Initial DASS-21 assessment completed with extremely severe symptoms'),
-(1, 1, 'RISK_FLAGGED', 'Student flagged as high risk based on assessment results'),
-(2, 1, 'ASSESSMENT_COMPLETED', 'Follow-up assessment showing improvement from extremely severe to severe'),
-(3, 1, 'ASSESSMENT_COMPLETED', 'Latest assessment shows continued improvement to moderate severity'),
-(4, 2, 'ASSESSMENT_COMPLETED', 'First assessment completed - moderate symptoms detected'),
-(5, 2, 'ASSESSMENT_COMPLETED', 'Follow-up assessment - consistent moderate symptoms'),
-(7, 4, 'ASSESSMENT_COMPLETED', 'Assessment completed - extremely severe symptoms detected'),
-(7, 4, 'REFERRAL_CREATED', 'Automatic referral created due to extremely severe assessment results'),
-(8, 4, 'ASSESSMENT_COMPLETED', 'Follow-up assessment shows worsening symptoms'),
-(8, 4, 'CRISIS_ALERT', 'Crisis alert triggered due to extremely severe scores'),
-(11, 5, 'ASSESSMENT_COMPLETED', 'Latest assessment shows progression from mild to moderate symptoms');
-
 -- Insert sample assessment sessions (in-progress and completed)
 INSERT INTO assessment_sessions (session_id, user_id, start_time, end_time, status) VALUES
 -- Completed sessions
@@ -380,4 +366,5 @@ ORDER BY
         WHEN da.overall_severity = 'Mild' THEN 4
         ELSE 5
     END,
+
     days_since_assessment DESC;
