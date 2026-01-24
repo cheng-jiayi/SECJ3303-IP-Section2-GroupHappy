@@ -17,12 +17,10 @@ public class ProfileController {
     @Autowired
     private UserDAO userDAO;
 
-    //View Profile
     @GetMapping
     public String viewProfile(HttpSession session, Model model) {
         System.out.println("=== DEBUG ProfileController.viewProfile() ===");
 
-        // Try to get user from session
         User sessionUser = (User) session.getAttribute("user");
         Integer userId = (Integer) session.getAttribute("userId");
         String role = (String) session.getAttribute("userRole");
@@ -34,14 +32,11 @@ public class ProfileController {
         User user = null;
 
         if (sessionUser != null) {
-            // Always fetch fresh data from DB
             user = userDAO.getUserById(sessionUser.getUserId());
-            // Update session with fresh user object
             session.setAttribute("user", user);
         } else if (userId != null) {
             user = userDAO.getUserById(userId);
             if (user != null) {
-                // Save user object and role in session
                 session.setAttribute("user", user);
                 session.setAttribute("userRole", user.getUserRole());
                 session.setAttribute("userId", user.getUserId());
@@ -66,7 +61,6 @@ public class ProfileController {
         return "/userManagementModule/profile";
     }
 
-    /* ================= UPDATE PROFILE ================= */
     @PostMapping("/update")
     public String updateProfile(
             @RequestParam String fullName,
@@ -84,13 +78,11 @@ public class ProfileController {
             return "redirect:/login";
         }
 
-        // Get fresh user from database
         User user = userDAO.getUserById(sessionUser.getUserId());
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPhone(phone);
 
-        // Only students can update these
         if ("student".equals(role)) {
             user.setMatricNumber(matricNumber);
             user.setFaculty(faculty);
@@ -99,12 +91,10 @@ public class ProfileController {
 
         userDAO.updateUser(user);
 
-        // Update session values - ALSO update the user object
         session.setAttribute("userFullName", fullName);
         session.setAttribute("email", email);
         session.setAttribute("phone", phone);
         
-        // Update the user object in session with new data
         sessionUser.setFullName(fullName);
         sessionUser.setEmail(email);
         sessionUser.setPhone(phone);
@@ -118,7 +108,6 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
-    /* ================= CHANGE PASSWORD ================= */
     @PostMapping("/change-password")
     public String changePassword(
             @RequestParam String newPassword,
@@ -129,13 +118,10 @@ public class ProfileController {
             return "redirect:/login";
         }
 
-        // Hash the password using BCrypt
         String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
 
-        // Update in DB
         userDAO.updatePassword(user.getUserId(), hashed);
 
-        // Optionally, set a session attribute or flash message
         session.setAttribute("message", "Password updated successfully!");
 
         return "redirect:/profile";
