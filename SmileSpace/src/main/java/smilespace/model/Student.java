@@ -23,6 +23,7 @@ public class Student {
     private Integer referralId;
     private String referralReason;
 
+    // Constructors
     public Student() {}
 
     public Student(int userId, String fullName, String matricNumber, String faculty, int year) {
@@ -33,6 +34,7 @@ public class Student {
         this.year = year;
     }
 
+    // Getters and Setters
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
@@ -108,7 +110,8 @@ public class Student {
     
     public String getReferralReason() { return referralReason; }
     public void setReferralReason(String referralReason) { this.referralReason = referralReason; }
-
+    
+    // Helper method to check referral status
     public boolean hasReferral() {
         return referralStatus != null && !"NO_REFERRAL".equals(referralStatus);
     }
