@@ -71,7 +71,7 @@ public class StudentDAO {
     }
     
     public Student getStudentById(String studentId) {
-        // Expects formatted ID like "STU001"
+        // This method expects formatted ID like "STU001"
         try {
             // Extract numeric ID from "STU001" format
             if (studentId.startsWith("STU")) {
@@ -107,7 +107,7 @@ public class StudentDAO {
         }
     }
     
-    // For debugging
+    // Add this for debugging
     public List<Student> getAllStudentsWithRisk() {
         String sql = """
             SELECT u.user_id, u.full_name, u.matric_number, u.risk_level, 
