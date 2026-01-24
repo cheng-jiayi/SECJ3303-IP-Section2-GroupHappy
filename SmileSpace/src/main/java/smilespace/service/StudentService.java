@@ -63,7 +63,7 @@ public class StudentService {
             return null;
         }
     }
-
+    
     public Student getAtRiskStudentById(int studentId) {
         Student student = getStudentByUserId(studentId);
         if (student != null && 
