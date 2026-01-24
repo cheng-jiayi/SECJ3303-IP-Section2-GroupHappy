@@ -14,11 +14,13 @@ public class MoodEntry {
     private String imagePath;
     private LocalDate createdAt;
     
+    // Student info for display
     private String studentName;
     private String studentMatric;
     private String studentProgram;
     private Integer studentYear;
     
+    // Constructors
     public MoodEntry() {
         this.entryDate = LocalDate.now();
         this.feelings = new ArrayList<>();
@@ -37,6 +39,7 @@ public class MoodEntry {
         this.entryDate = entryDate;
     }
     
+    // Getters and Setters
     public int getEntryId() { return entryId; }
     public void setEntryId(int entryId) { this.entryId = entryId; }
     
