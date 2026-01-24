@@ -22,7 +22,7 @@ public class CounselingSession {
     private String attachmentPath;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+
     private String currentMood;
     private String reason;
     private String additionalNotes;
@@ -32,6 +32,8 @@ public class CounselingSession {
     private String studentEmail;
     private String counselorName;
     
+    
+    // Constructors
     public CounselingSession() {
         this.counselorId = null; 
         this.status = "Pending Assignment";
