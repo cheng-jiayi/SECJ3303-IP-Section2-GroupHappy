@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.net.URLDecoder" %>
 <%@ page import="smilespace.model.QuizResult" %>
 <%@ page import="smilespace.model.Question" %>
 <%@ page import="java.util.Map" %>
@@ -14,9 +14,10 @@
     String category = request.getParameter("category");
     if (category == null) {
         category = "Stress";
+    } else {
+        // Decode if it was previously encoded
+        category = URLDecoder.decode(category, "UTF-8");
     }
-    
-    String encodedCategory = URLEncoder.encode(category, "UTF-8");
     
     String resultCategory = "";
     String resultMessage = "";
@@ -356,14 +357,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="top-right">
-        <a href="<%= request.getContextPath() %>/quiz-dashboard?category=<%= encodedCategory %>" class="home-link">
-            <div class="logo">
-                <i class="fas fa-home"></i>
-                SmileSpace
-            </div>
-        </a>
-    </div>
 
     <div class="result-container">
         <div class="header">
@@ -474,11 +467,11 @@
         <% } %>
         
         <div class="action-buttons">
-            <a href="quiz-dashboard?category=<%= encodedCategory %>" class="btn btn-secondary">
+            <a href="student-learning-modules" class="btn btn-secondary">
                 <i class="fas fa-th-large"></i>
                 Back to Dashboard
             </a>
-            <a href="student-module?id=<%= moduleId %>&category=<%= encodedCategory %>" class="btn btn-primary">
+            <a href="student-module?id=<%= moduleId %>&category=<%= category %>" class="btn btn-primary">
                 <i class="fas fa-book-open"></i>
                 Review Module
             </a>
