@@ -20,7 +20,6 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    // Submit a report
     @PostMapping("/submit")
     public String submitReport(@RequestParam String type,
                                @RequestParam int targetId,
@@ -44,7 +43,6 @@ public class ReportController {
         return "redirect:/forum?reportSubmitted=true";
     }
 
-    // View user's reports
     @GetMapping("/my")
     public String myReports(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -59,16 +57,13 @@ public class ReportController {
         return "/peerSupportForumModule/myReports";
     }
 
-    // Admin: view all reports
     @GetMapping("/admin")
     public String adminReports(@RequestParam(required = false) String status, Model model) {
         List<Report> reports;
         
         if (status != null && !status.isEmpty()) {
-            // Filter by status
             reports = reportService.getReportsByStatus(status);
         } else {
-            // Show all reports
             reports = reportService.getAllReports();
         }
         
@@ -76,7 +71,6 @@ public class ReportController {
         return "/peerSupportForumModule/adminReports";
     }
 
-    // Admin: update report status
     @PostMapping("/admin/update")
     public String updateReport(@RequestParam int reportId,
                                @RequestParam String status,
