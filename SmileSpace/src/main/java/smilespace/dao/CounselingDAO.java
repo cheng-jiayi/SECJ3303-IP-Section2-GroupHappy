@@ -70,6 +70,7 @@ public class CounselingDAO {
         return sessions;
     }
     
+    // Update RowMapper class
     private static class CounselingSessionRowMapper implements RowMapper<CounselingSession> {
         @Override
         public CounselingSession mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -78,7 +79,7 @@ public class CounselingDAO {
             CounselingSession session = new CounselingSession();
             
             try {
-                // Basic ID
+                // Basic ID fields
                 int sessionId = rs.getInt("session_id");
                 session.setSessionId(sessionId);
                 System.out.println("RowMapper: session_id = " + sessionId);
@@ -118,7 +119,7 @@ public class CounselingDAO {
                 System.out.println("RowMapper: follow_up_actions = " + 
                     (followUpActions != null ? "'" + followUpActions + "'" : "NULL"));
                 
-                // DATETIME
+                // DATETIME fields
                 Timestamp scheduled = rs.getTimestamp("scheduled_datetime");
                 if (scheduled != null) {
                     session.setScheduledDateTime(scheduled.toLocalDateTime());
@@ -129,6 +130,7 @@ public class CounselingDAO {
                     session.setActualDateTime(actual.toLocalDateTime());
                 }
                 
+                // Other text fields
                 session.setCurrentMood(rs.getString("current_mood"));
                 session.setReason(rs.getString("reason"));
                 session.setAdditionalNotes(rs.getString("additional_notes"));
@@ -168,8 +170,8 @@ public class CounselingDAO {
         String sql = "INSERT INTO counseling_sessions " +
                     "(student_id, counselor_id, scheduled_datetime, session_type, " +
                     "current_mood, reason, additional_notes, follow_up_method, status, " +
-                    "created_at, updated_at) " + 
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+                    "created_at, updated_at) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             System.out.println("=== DAO DEBUG: Creating counseling session ===");
@@ -298,7 +300,6 @@ public class CounselingDAO {
     }
     
     public List<Integer> getAvailableCounselors(LocalDateTime dateTime) {
-        // Implementation for available counselors
         return List.of();
     }
     
