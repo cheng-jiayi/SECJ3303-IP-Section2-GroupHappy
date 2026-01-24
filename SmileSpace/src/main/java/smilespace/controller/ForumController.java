@@ -25,7 +25,7 @@ public class ForumController {
 
     @GetMapping
     public String viewForum(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user"); // use 'user' here
+        User user = (User) session.getAttribute("user");
         List<Post> posts = postService.getAllPosts();
 
         for (Post post : posts) {
@@ -34,7 +34,7 @@ public class ForumController {
         }
 
         model.addAttribute("posts", posts);
-        model.addAttribute("user", user); // pass to JSP as 'user'
+        model.addAttribute("user", user);
         return "/peerSupportForumModule/forum";
     }
 
