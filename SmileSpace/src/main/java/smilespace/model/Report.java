@@ -7,14 +7,16 @@ public class Report {
     private int reporterId;
     private String reporterName;
 
-    private Integer postId;   // can be null
-    private Integer replyId;  // can be null
+    private Integer postId;
+    private Integer replyId;
 
     private String reason;
     private String status;
     private String actionTaken;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private int reportedUserId;
 
     // Getters & Setters
     public int getReportId() { return reportId; }
@@ -46,4 +48,7 @@ public class Report {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public int getReportedUserId() { return reportedUserId; }
+    public void setReportedUserId(int reportedUserId) { this.reportedUserId = reportedUserId; }
 }
