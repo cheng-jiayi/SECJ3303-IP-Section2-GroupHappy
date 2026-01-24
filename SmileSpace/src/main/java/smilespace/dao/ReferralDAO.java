@@ -49,7 +49,7 @@ public class ReferralDAO {
         }
     }
     
-    // New RowMapper for detailed referral
+    // RowMapper for detailed referral
     private static class ReferralDetailRowMapper implements RowMapper<Referral> {
         @Override
         public Referral mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -78,8 +78,7 @@ public class ReferralDAO {
             
             referral.setCounselorName(rs.getString("counselor_name"));
             referral.setCounselorEmail(rs.getString("counselor_email"));
-            
-            // Student additional info
+
             referral.setStudentEmail(rs.getString("student_email"));
             referral.setStudentPhone(rs.getString("student_phone"));
             referral.setStudentFaculty(rs.getString("student_faculty"));
@@ -145,7 +144,6 @@ public class ReferralDAO {
         return jdbcTemplate.query(sql, new ReferralRowMapper(), counselorId);
     }
     
-    // Get referrals by faculty
     public List<Referral> getReferralsByFaculty(int facultyId) {
         String sql = "SELECT r.*, " +
                     "u.full_name as student_name, u.matric_number, " +
@@ -212,8 +210,7 @@ public class ReferralDAO {
             return null;
         }
     }
-    
-    // Get referral with detailed information
+
     public Referral getReferralByIdWithDetails(int referralId) {
         String sql = "SELECT r.*, " +
                     "u.full_name as student_name, u.matric_number, " +
@@ -253,8 +250,7 @@ public class ReferralDAO {
             return null;
         }
     }
-    
-    // Get referral ID for a student-faculty combination
+
     public Integer getReferralIdByStudentAndFaculty(int studentId, int facultyId) {
         String sql = "SELECT referral_id FROM referrals " +
                     "WHERE student_id = ? AND faculty_id = ? " +
