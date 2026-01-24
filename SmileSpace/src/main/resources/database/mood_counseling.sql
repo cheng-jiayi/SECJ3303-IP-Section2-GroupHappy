@@ -1,28 +1,3 @@
-CREATE DATABASE smilespace;
-USE smilespace;
-
--- Users table
-CREATE TABLE users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    user_role ENUM('student', 'faculty', 'admin', 'professional') NOT NULL,
-    phone VARCHAR(20),
-    matric_number VARCHAR(20),
-    faculty VARCHAR(100),
-    year INT,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_login TIMESTAMP NULL,
-    risk_level ENUM('HIGH', 'MEDIUM', 'LOW') DEFAULT 'LOW',
-    recent_mood VARCHAR(100),
-    mood_stability DECIMAL(5,2) DEFAULT 0.0,
-    frequent_tags VARCHAR(255),
-    assessment_category VARCHAR(100)
-);
-
 -- Mood entries table
 CREATE TABLE mood_entries (
     entry_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -102,7 +77,7 @@ CREATE TABLE referrals (
     FOREIGN KEY (counselor_id) REFERENCES users(user_id)
 );
 
--- Professionals table 
+-- Professionals table for MHP details
 CREATE TABLE professionals (
     professional_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL UNIQUE,
@@ -116,32 +91,7 @@ CREATE TABLE professionals (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Password: 'password123' (bcrypt hash)
-INSERT INTO users (username, email, password_hash, full_name, user_role, matric_number, faculty, year, phone, risk_level, recent_mood, mood_stability, frequent_tags, assessment_category) VALUES
--- Students
-('student1', 'student1@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Ali bin Ahmad', 'student', 'A123456', 'Faculty of Computing', 2, '012-3456789', 'HIGH', 'Anxious', 35.5, 'stress,anxious,overwhelmed', 'Needs Immediate Support'),
-('student2', 'student2@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Siti binti Mohd', 'student', 'B234567', 'Faculty of Computing', 3, '013-4567890', 'MEDIUM', 'Stressed', 65.2, 'assignment_due,stressed', 'Monitor Closely'),
-('student3', 'student3@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Ahmad bin Ismail', 'student', 'C345678', 'Faculty of Computing', 1, '014-5678901', 'LOW', 'Happy', 85.7, 'happy,content', 'Doing Well'),
-('student4', 'student4@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Fatimah binti Ali', 'student', 'D456789', 'Faculty of Engineering', 2, '015-6789012', 'HIGH', 'Depressed', 25.8, 'lonely,depressed,withdrawn', 'High Risk - Immediate Attention'),
-('student5', 'student5@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Rajesh Kumar', 'student', 'E567890', 'Faculty of Business', 3, '016-7890123', 'MEDIUM', 'Overwhelmed', 55.3, 'overwhelmed,assignment_due', 'Needs Support'),
-
--- Faculty
-('faculty1', 'faculty1@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Dr. John Smith', 'faculty', NULL, 'Faculty of Computing', NULL, '011-1111111', NULL, NULL, NULL, NULL, NULL),
-('faculty2', 'faculty2@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Prof. Sarah Lee', 'faculty', NULL, 'Faculty of Engineering', NULL, '012-2222222', NULL, NULL, NULL, NULL, NULL),
-
--- Mental Health Professionals
-('mhp1', 'mhp1@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Dr. Sarah Johnson', 'professional', NULL, NULL, NULL, '013-3333333', NULL, NULL, NULL, NULL, NULL),
-('mhp2', 'mhp2@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Dr. Michael Chen', 'professional', NULL, NULL, NULL, '014-4444444', NULL, NULL, NULL, NULL, NULL),
-
--- Admin
-('admin1', 'admin1@email.com', '$2a$10$KSODLdL2mfTGJnIYJJf1zegCDkWW9Guvkzy6r0W/0grjSQuetomUG', 'Dr. Nurain Shafikah', 'admin', NULL, NULL, NULL, '011-3333333', NULL, NULL, NULL, NULL, NULL);
-
--- Professional details
-INSERT INTO professionals (user_id, specialization, experience_years, qualifications, bio, office_hours, max_sessions_per_week) VALUES
-(9, 'Anxiety & Depression, Student Counseling', 8, 'PhD in Clinical Psychology, Licensed Professional Counselor', 'Specializes in working with university students dealing with academic stress, anxiety, and depression.', 'Mon-Fri: 9am-5pm', 25),
-(10, 'Crisis Intervention, Cognitive Behavioral Therapy', 12, 'MA in Counseling Psychology, Certified Crisis Counselor', 'Experienced in crisis intervention and helping students through difficult transitions.', 'Tue-Thu: 10am-6pm', 20);
-
--- Sample mood entries
+-- Insert sample mood entries
 INSERT INTO mood_entries (user_id, entry_date, reflection, tags) VALUES
 (1, CURDATE() - INTERVAL 1 DAY, 'Feeling anxious about final exams. Cant sleep well.', 'anxious,exam_stress,sleep_issues'),
 (1, CURDATE() - INTERVAL 2 DAY, 'Still feeling overwhelmed with assignments', 'overwhelmed,stressed'),
@@ -153,19 +103,19 @@ INSERT INTO mood_entries (user_id, entry_date, reflection, tags) VALUES
 (4, CURDATE() - INTERVAL 2 DAY, 'Skipped classes again. Cant focus on anything.', 'withdrawn,no_motivation'),
 (5, CURDATE() - INTERVAL 1 DAY, 'Too many assignments due this week. Overwhelmed.', 'overwhelmed,assignment_due');
 
--- Sample mood feelings
+-- Insert sample mood feelings
 INSERT INTO mood_feelings (entry_id, feeling_name) VALUES
 (1, 'anxious'), (1, 'stressed'),
-(2, 'stressed'),
-(3, 'sad'),
-(4, 'playful'),
+(2, 'overwhelmed'), (2, 'stressed'),
+(3, 'sad'), (3, 'lonely'),
+(4, 'calm'), (4, 'hopeful'),
 (5, 'stressed'), (5, 'anxious'),
 (6, 'happy'), (6, 'excited'),
-(7, 'sad'), 
-(8, 'stressed'),
-(9, 'anxious');
+(7, 'sad'), (7, 'depressed'),
+(8, 'tired'), (8, 'hopeless'),
+(9, 'overwhelmed'), (9, 'anxious');
 
--- Sample counseling sessions
+-- Insert sample counseling sessions
 INSERT INTO counseling_sessions (student_id, counselor_id, scheduled_datetime, session_type, status, current_mood, reason, follow_up_method) VALUES
 (1, NULL, DATE_ADD(NOW(), INTERVAL 2 DAY), 'Individual Therapy', 'Pending Assignment', 'Anxious', 'Exam anxiety affecting sleep and studies', 'Email'),
 (2, NULL, DATE_ADD(NOW(), INTERVAL 3 DAY), 'Stress Management', 'Pending Assignment', 'Stressed', 'Overwhelmed with multiple assignments', 'WhatsApp'),
@@ -173,17 +123,18 @@ INSERT INTO counseling_sessions (student_id, counselor_id, scheduled_datetime, s
 (1, 9, DATE_ADD(NOW(), INTERVAL 5 DAY), 'Follow-up Session', 'Scheduled', 'Anxious', 'Follow-up on previous anxiety issues', 'Email'),
 (2, 10, DATE_ADD(NOW(), INTERVAL 4 DAY), 'Initial Assessment', 'Scheduled', 'Stressed', 'Academic stress management', 'WhatsApp');
 
--- Sample referrals
+-- Insert sample referrals from faculty to MHP
 INSERT INTO referrals (student_id, faculty_id, reason, urgency, notes, referral_date, status) VALUES
 (1, 6, 'Academic Stress & Anxiety', 'HIGH', 'Student shows signs of severe anxiety affecting academic performance. Has missed multiple classes.', NOW() - INTERVAL 2 DAY, 'PENDING'),
 (4, 7, 'Depression Signs', 'HIGH', 'Student appears withdrawn, shows signs of depression. Expressed feelings of hopelessness.', NOW() - INTERVAL 1 DAY, 'PENDING'),
 (2, 6, 'Academic Pressure', 'MEDIUM', 'Student struggling with workload management. Shows signs of stress.', NOW() - INTERVAL 3 DAY, 'PENDING'),
 (5, 7, 'Overwhelmed with Studies', 'MEDIUM', 'Student expressed feeling overwhelmed with multiple deadlines.', NOW(), 'PENDING');
 
--- Completed referral
+-- Insert a completed referral (accepted by MHP)
 INSERT INTO referrals (student_id, faculty_id, reason, urgency, notes, referral_date, status, counselor_id) VALUES
 (1, 6, 'Severe Anxiety', 'HIGH', 'Immediate attention needed', NOW() - INTERVAL 5 DAY, 'ACCEPTED', 9);
 
+-- Continue with the rest of your indexes, views, stored procedures, and triggers...
 -- Create indexes for performance
 CREATE INDEX idx_users_role ON users(user_role);
 CREATE INDEX idx_users_risk ON users(risk_level);
