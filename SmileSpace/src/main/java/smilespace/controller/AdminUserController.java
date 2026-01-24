@@ -17,7 +17,6 @@ public class AdminUserController {
     @Autowired
     private UserService userService;
 
-    // Render the manage users page
     @GetMapping("/manageUsers")
     public String manageUsers(@RequestParam(value = "filter", required = false, defaultValue = "student") String filter,
                               Model model) {
@@ -40,10 +39,9 @@ public class AdminUserController {
 
         model.addAttribute("users", users);
         model.addAttribute("filter", filter);
-        return "/userManagementModule/manageUsers"; // JSP path
+        return "/userManagementModule/manageUsers";
     }
 
-    // Delete a user via AJAX
     @PostMapping("/deleteUser")
     @ResponseBody
     public ResponseEntity<String> deleteUser(@RequestParam("userId") int userId) {
