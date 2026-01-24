@@ -16,7 +16,8 @@ public class Referral {
     private String status;
     private Integer counselorId;
     private String counselorName;
-
+    
+    // Additional student information fields
     private String studentEmail;
     private String studentPhone;
     private String studentFaculty;
@@ -28,8 +29,10 @@ public class Referral {
     private String assessmentCategory;
     private String counselorEmail;
     
+    // Add notify field for JSP compatibility
     private String notify;
     
+    // Constants for status and urgency
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_ACCEPTED = "ACCEPTED";
     public static final String STATUS_COMPLETED = "COMPLETED";
@@ -39,11 +42,13 @@ public class Referral {
     public static final String URGENCY_MEDIUM = "MEDIUM";
     public static final String URGENCY_LOW = "LOW";
     
+    // Constructors
     public Referral() {
         this.status = STATUS_PENDING;
         this.referralDate = LocalDateTime.now();
     }
     
+    // Getters and Setters
     public int getReferralId() { return referralId; }
     public void setReferralId(int referralId) { this.referralId = referralId; }
     
@@ -84,7 +89,8 @@ public class Referral {
     
     public String getCounselorName() { return counselorName; }
     public void setCounselorName(String counselorName) { this.counselorName = counselorName; }
-
+    
+    // Getters and Setters for additional fields
     public String getStudentEmail() { return studentEmail; }
     public void setStudentEmail(String studentEmail) { this.studentEmail = studentEmail; }
     
@@ -115,9 +121,11 @@ public class Referral {
     public String getCounselorEmail() { return counselorEmail; }
     public void setCounselorEmail(String counselorEmail) { this.counselorEmail = counselorEmail; }
     
+    // Add getters and setters for notify
     public String getNotify() { return notify; }
     public void setNotify(String notify) { this.notify = notify; }
     
+    // Helper methods
     public String getFormattedDate() {
         if (referralDate == null) return "";
         java.time.format.DateTimeFormatter formatter = 
