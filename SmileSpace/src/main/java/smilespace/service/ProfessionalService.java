@@ -43,7 +43,7 @@ public class ProfessionalService {
     }
     
     public boolean assignProfessionalToSession(int sessionId, int professionalId) {
-        return false; 
+        return false;
     }
 
     public Professional getProfessionalByEmail(String email) {
