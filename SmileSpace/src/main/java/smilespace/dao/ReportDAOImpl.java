@@ -77,13 +77,6 @@ public class ReportDAOImpl implements ReportDAO {
             "OR r.status IN ('RESOLVED', 'DISMISSED', 'REPORTED')" +
             "ORDER BY r.created_at DESC";
 
-            // "SELECT r.*, u.full_name " +
-            // "FROM reports r " +
-            // "JOIN users u ON r.reporter_id = u.user_id " +
-            // "LEFT JOIN posts p ON r.post_id = p.post_id " +
-            // "LEFT JOIN replies rp ON r.reply_id = rp.reply_id " +
-            // "WHERE p.user_id = ? OR rp.user_id = ? " +
-            // "ORDER BY r.created_at DESC";
         return jdbcTemplate.query(sql, new Object[]{userId, userId}, (rs, rowNum) -> {
             Report report = new Report();
             report.setReportId(rs.getInt("report_id"));
@@ -122,23 +115,18 @@ public class ReportDAOImpl implements ReportDAO {
 
     @Override
     public void updateReportStatus(int reportId, String status, String actionTaken) {
-        // Get the report first
         Report report = getReportById(reportId);
         
-        // If status is RESOLVED, delete the reported content
         if ("RESOLVED".equalsIgnoreCase(status)) {
             if (report.getPostId() != null) {
-                // Delete the post (this will automatically delete all replies due to CASCADE)
                 String deletePostSql = "DELETE FROM posts WHERE post_id = ?";
                 jdbcTemplate.update(deletePostSql, report.getPostId());
             } else if (report.getReplyId() != null) {
-                // Delete the single reply
                 String deleteReplySql = "DELETE FROM replies WHERE reply_id = ?";
                 jdbcTemplate.update(deleteReplySql, report.getReplyId());
             }
         }
         
-        // Always update the report status
         String updateSql = "UPDATE reports SET status = ?, action_taken = ?, updated_at = NOW() WHERE report_id = ?";
         jdbcTemplate.update(updateSql, status, actionTaken, reportId);
     }
