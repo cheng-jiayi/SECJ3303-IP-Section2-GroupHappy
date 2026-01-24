@@ -23,7 +23,7 @@ public class MoodController {
     
     @Autowired
     private MoodService moodService;
-    
+ 
     // GET /mood - main page
     @GetMapping
     public String handleGet(@RequestParam(value = "action", required = false) String action,
@@ -73,7 +73,6 @@ public class MoodController {
         }
     }
     
-    // POST /mood
     @PostMapping
     public String handlePost(@RequestParam(value = "action", required = false) String action,
                             @RequestParam(value = "id", required = false) Integer id,
@@ -82,7 +81,7 @@ public class MoodController {
                             @RequestParam(value = "tags", required = false) String[] tags,
                             @RequestParam(value = "referrer", required = false) String referrer,
                             @RequestParam(value = "imagePath", required = false) MultipartFile imageFile,
-                            @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, 
+                            @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, // This already exists
                             HttpSession session,
                             HttpServletRequest request,
                             Model model) throws IOException {
@@ -122,7 +121,7 @@ public class MoodController {
             return "error";
         }
     }
-    
+
     private String showMainPage(int userId, String success, Model model) {
         MoodEntry latestMood = moodService.getLatestMoodEntry(userId);
         
@@ -185,7 +184,6 @@ public class MoodController {
                     // Sanitize filename - replace spaces with underscores
                     String sanitizedFileName = fileName.replaceAll("\\s+", "_");
                     
-                    // Use your specific project path
                     String projectPath = System.getProperty("user.dir");
                     String uploadDir = projectPath + File.separator + "uploads" + File.separator + "moods";
                     
@@ -220,7 +218,7 @@ public class MoodController {
                         e.printStackTrace();
                     }
                     
-                    // Store relative path for database
+                    // Store relative path for database - WITHOUT leading slash
                     uploadedImagePath = "uploads/moods/" + uniqueFileName;
                     System.out.println("DEBUG: Path to store in DB: " + uploadedImagePath);
                 }
@@ -438,7 +436,7 @@ public class MoodController {
                 }
             }
 
-            // Handle file upload
+            // Handle file upload - USE THE SAME PATH AS addNewMoodEntry
             if (imageFile != null && !imageFile.isEmpty()) {
                 String fileName = imageFile.getOriginalFilename();
                 if (fileName != null && !fileName.isEmpty()) {
@@ -465,6 +463,7 @@ public class MoodController {
                     
                     imageFile.transferTo(new File(filePath));
                     
+                    // Store path WITHOUT leading slash
                     updatedEntry.setImagePath("uploads/moods/" + uniqueFileName);
                     
                     System.out.println("Image path saved to DB: " + updatedEntry.getImagePath());
@@ -482,7 +481,6 @@ public class MoodController {
             System.out.println("Entry date: " + updatedEntry.getEntryDate());
             
             if (success) {
-                // ALWAYS redirect to daily view after editing
                 // Add timestamp to prevent browser caching
                 String timestamp = "&t=" + System.currentTimeMillis();
                 String redirectUrl = "redirect:/mood?action=viewDaily&date=" + updatedEntry.getEntryDate() + timestamp;
