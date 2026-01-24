@@ -904,7 +904,7 @@
                                 <div class="upload-subtext">Lecture slides, articles, or videos</div>
                                 <input type="file" name="resourceFile" id="resourceFileInput" style="display: none;">
                                 <button type="button" class="browse-btn" onclick="document.getElementById('resourceFileInput').click()">Browse Files</button>
-                                <div class="file-types">MP4, PDF, DOCX, PPT, PNG, JPG, JPEG (Max: 50MB)</div>
+                                <div class="file-types">MP4, PDF, DOCX, PPT, PNG, JPG, JPEG (Max: 5MB)</div>
                             </div>
 
                             <% if (module.getResourceFilePath() != null && !module.getResourceFilePath().isEmpty()) { 
