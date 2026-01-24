@@ -71,7 +71,7 @@ public class CounselingController {
                 } else if ("professional".equals(userRole)) {
                     return showCounselorSessions(userId, model, session);
                 } else {
-                    return "redirect:/index.jsp";
+                    return "redirect:/dashboard";
                 }
             } else if ("sessionDetails".equals(action) && sessionId != null) {
                 return showSessionDetails(userId, userRole, sessionId, model);
@@ -88,7 +88,7 @@ public class CounselingController {
                 } else if ("professional".equals(userRole)) {
                     return showCounselorSessions(userId, model, session);
                 } else {
-                    return "redirect:/index.jsp";
+                    return "redirect:/dashboard";
                 }
             }
         } catch (Exception e) {
