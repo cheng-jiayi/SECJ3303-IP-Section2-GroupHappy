@@ -36,7 +36,7 @@ public class ReferralController {
         if (!"faculty".equals(userRole)) {
             // If MHP tries to access, redirect them to their own dashboard
             if ("professional".equals(userRole)) {
-                return "redirect:/counseling?action=viewSessions"; // Go to MHP dashboard
+                return "redirect:/counseling?action=viewSessions";
             }
             // For other roles, go to login
             return "redirect:/login";
@@ -199,7 +199,7 @@ public class ReferralController {
         model.addAttribute("student", student);
         model.addAttribute("referral", latestReferral);
         
-        return "virtualCounselingModule/faculty/referralSuccess"; 
+        return "virtualCounselingModule/faculty/referralSuccess"; // This is the JSP filename
     }
     
     // Accept referral (for MHP)
