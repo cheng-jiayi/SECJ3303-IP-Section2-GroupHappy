@@ -589,7 +589,7 @@
                     <div class="search-container">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" name="search" class="search-input" 
-                               placeholder="Search by title..." 
+                               placeholder="Search by title and description ..." 
                                value="<%= searchTerm != null ? searchTerm : "" %>"
                                id="searchInput">
                     </div>           
