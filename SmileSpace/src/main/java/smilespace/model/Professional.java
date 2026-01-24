@@ -19,6 +19,7 @@ public class Professional {
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
     
+    // Getters and setters for all fields
     public int getProfessionalId() { return professionalId; }
     public void setProfessionalId(int professionalId) { this.professionalId = professionalId; }
     
