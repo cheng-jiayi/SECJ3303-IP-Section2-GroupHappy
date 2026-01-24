@@ -14,13 +14,11 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    // Show registration page
     @GetMapping
     public String showRegistrationForm() {
-        return "/userManagementModule/registrationPage"; // maps to registrationPage.jsp
+        return "/userManagementModule/registrationPage";
     }
 
-    // Handle form submission
     @PostMapping
     public String registerUser(
             @RequestParam("username") String username,
@@ -33,7 +31,6 @@ public class RegistrationController {
 
         StringBuilder error = new StringBuilder();
 
-        // ===== Validation =====
         if (username == null || !username.matches("^[a-zA-Z0-9]{3,20}$")) {
             error.append("Username must be 3-20 alphanumeric characters. ");
         }
@@ -54,7 +51,6 @@ public class RegistrationController {
             error.append("Passwords do not match. ");
         }
 
-        // ===== Check username/email =====
         if (userService.checkUsernameExists(username)) {
             error.append("Username already exists. ");
         }
@@ -68,7 +64,6 @@ public class RegistrationController {
             return "/userManagementModule/registrationPage";
         }
 
-        // ===== Create User =====
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
